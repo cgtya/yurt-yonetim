@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class HelloApplication extends Application {
     @Override
@@ -17,7 +18,7 @@ public class HelloApplication extends Application {
         stage.setScene(scene);
         stage.setMinHeight(480);
         stage.setMinWidth(640);
-        Image icon = new Image(getClass().getResourceAsStream("icon.jpg"));
+        Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon.jpg")));
         stage.getIcons().add(icon);
         stage.show();
     }
