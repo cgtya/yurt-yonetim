@@ -3,6 +3,7 @@ package org.corba.yurtyonetim.gui;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -16,6 +17,8 @@ public class HelloApplication extends Application {
         stage.setScene(scene);
         stage.setMinHeight(480);
         stage.setMinWidth(640);
+        Image icon = new Image(getClass().getResourceAsStream("icon.jpg"));
+        stage.getIcons().add(icon);
         stage.show();
     }
 
