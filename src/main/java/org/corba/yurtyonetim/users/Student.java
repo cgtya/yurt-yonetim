@@ -1,3 +1,6 @@
+/*
+//TODO commented out as it doesnt work
+
 package org.corba.yurtyonetim.users;
 
 import java.io.BufferedWriter;
@@ -452,10 +455,9 @@ public class Student extends User {
 
 	@Override
 	public boolean logIn() {
-		/*
-		 * Veri tabanındaki bilgiler ile giriş bilgileri birbirini destekliyor mu
-		 * kontrol et
-		 */
+
+		 // Veri tabanındaki bilgiler ile giriş bilgileri birbirini destekliyor mu kontrol et
+
 		System.out.print("TC Kimlik Numaranızı Girin: ");
 		String tcNo = scanner.nextLine();
 
@@ -601,3 +603,4 @@ public class Student extends User {
 
 }
 
+*/
