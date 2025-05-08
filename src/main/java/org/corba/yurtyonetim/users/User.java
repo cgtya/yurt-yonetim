@@ -6,7 +6,6 @@ public abstract class User {
 	private String email;
 	private String telNo;
 	private String password;
-	private String homeTown;
 	private String tcNo;
 	
 	public String getName() {
@@ -42,13 +41,6 @@ public abstract class User {
 	}
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public String getHomeTown() {
-		return homeTown;
-	}
-	public void setHomeTown(String homeTown) {
-		this.homeTown = homeTown;
 	}
 
 	public String getTcNo() {

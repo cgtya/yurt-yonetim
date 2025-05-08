@@ -6,53 +6,74 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.corba.yurtyonetim.gui.Mainmenu">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu mnemonicParsing="false" text="Dosya">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+              <MenuItem mnemonicParsing="false" text="Kapat" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
+          <Menu mnemonicParsing="false" text="Düzenle">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem mnemonicParsing="false" text="Ayarlar" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Help">
+          <Menu mnemonicParsing="false" text="Yardım">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem fx:id="aboutM" mnemonicParsing="false" onAction="#about" text="Hakkında" />
             </items>
           </Menu>
         </menus>
       </MenuBar>
    </top>
    <left>
-      <VBox prefHeight="200.0" prefWidth="120.0" spacing="5.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="200.0" prefWidth="140.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Button">
+            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="48.0" prefWidth="140.0" text="Ana Ekran">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
+               <graphic>
+                  <FontIcon iconLiteral="mdi2h-home" iconSize="24" />
+               </graphic>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Button">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
+            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="48.0" prefWidth="140.0" text="Öğrenci İşlemleri">
+               <graphic>
+                  <FontIcon iconLiteral="mdi2h-home" iconSize="24" text="󰋜" />
+               </graphic>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Button" />
-            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Button" />
-            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Button" />
-            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Button" />
-            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Button" />
+            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="48.0" prefWidth="140.0" text="Yurt İşlemleri">
+               <graphic>
+                  <FontIcon iconLiteral="mdi2h-home" iconSize="24" />
+               </graphic>
+            </Button>
+            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="48.0" prefWidth="140.0" text="Becayiş İşlemleri">
+               <graphic>
+                  <FontIcon iconLiteral="mdi2h-home" iconSize="24" />
+               </graphic>
+            </Button>
+            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="48.0" prefWidth="140.0" text="Nakil İşlemleri">
+               <graphic>
+                  <FontIcon iconLiteral="mdi2h-home" iconSize="24" />
+               </graphic>
+            </Button>
+            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="48.0" prefWidth="140.0" text="Kullanıcı Yönetimi">
+               <graphic>
+                  <FontIcon iconLiteral="mdi2h-home" iconSize="24" text="󰋜" />
+               </graphic>
+            </Button>
+            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="48.0" prefWidth="140.0" text="Çıkış Yap">
+               <graphic>
+                  <FontIcon iconLiteral="mdi2l-logout" iconSize="24" />
+               </graphic>
+            </Button>
          </children>
          <BorderPane.margin>
             <Insets left="5.0" right="5.0" top="5.0" />
@@ -63,15 +84,6 @@
       <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
             <Separator orientation="VERTICAL" prefHeight="200.0" />
-            <TableView prefHeight="375.0" prefWidth="384.0">
-              <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
-              </columns>
-               <HBox.margin>
-                  <Insets top="5.0" />
-               </HBox.margin>
-            </TableView>
          </children>
          <BorderPane.margin>
             <Insets />
