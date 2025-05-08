@@ -8,12 +8,14 @@
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.corba.yurtyonetim.gui.StudentAdd">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.corba.yurtyonetim.gui.StudentAdd">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
@@ -85,7 +87,33 @@
         <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" BorderPane.alignment="CENTER">
             <children>
                 <Separator orientation="VERTICAL" prefHeight="200.0" />
-            <Label text="öğrenci ekle" />
+            <VBox prefHeight="200.0" prefWidth="250.0" spacing="15.0">
+               <children>
+                  <Label prefHeight="22.0" prefWidth="119.0" text="Öğrenci Ekleme">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="nameBox" promptText="Ad" />
+                  <TextField fx:id="surnameBox" promptText="Soyad" />
+                  <TextField fx:id="mailBox" promptText="E-posta" />
+                  <TextField fx:id="phoneBox" promptText="Telefon No." />
+                  <TextField fx:id="IDBox" promptText="T.C. Kimlik No" />
+                  <Button mnemonicParsing="false" text="Öğrenciyi Kaydet">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Button>
+                  <Label fx:id="statusLabel">
+                     <VBox.margin>
+                        <Insets left="10.0" />
+                     </VBox.margin>
+                  </Label>
+               </children>
+               <HBox.margin>
+                  <Insets top="5.0" />
+               </HBox.margin>
+            </VBox>
             </children>
             <BorderPane.margin>
                 <Insets />
