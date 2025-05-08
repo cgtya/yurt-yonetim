@@ -5,9 +5,19 @@ public abstract class User {
 	private String surname;
 	private String email;
 	private String telNo;
-	private String password;
 	private String tcNo;
-	
+
+	public User(String email,String name,String surname,String tcNo) {
+		this.email = email;
+		this.name = name;
+		this.surname = surname;
+		this.tcNo = tcNo;
+		this.telNo = telNo;
+	}
+
+
+
+
 	public String getName() {
 		return name;
 	}
@@ -36,12 +46,6 @@ public abstract class User {
 		this.telNo = telNo;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
 	public String getTcNo() {
 		return tcNo;
@@ -51,9 +55,7 @@ public abstract class User {
 	}
 	
 	
-	public abstract boolean logIn();
-	public abstract void editProfile();
-	public abstract void showProfile();
+
 
 
 	
