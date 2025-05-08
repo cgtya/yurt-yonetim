@@ -2,12 +2,19 @@ package org.corba.yurtyonetim.gui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import org.apache.commons.codec.digest.DigestUtils;
+
+import java.io.IOException;
 
 public class Login {
 
@@ -22,7 +29,7 @@ public class Login {
     @FXML
     private Label title;
 
-    public void login(ActionEvent event) throws InterruptedException {
+    public void login(ActionEvent event) throws InterruptedException, IOException {
         String username;
         String password;
 
@@ -51,6 +58,19 @@ public class Login {
 
         //TODO checking credentials
         //TODO forwarding to correct users page
+
+        redirect(event);
+    }
+    private void redirect(ActionEvent event) throws IOException {
+        Stage stage;
+        Parent root;
+        Scene scene;
+
+        root = FXMLLoader.load(getClass().getResource("mainmenu.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
 
     }
 
