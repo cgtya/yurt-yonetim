@@ -7,7 +7,7 @@ public abstract class User {
 	private String telNo;
 	private String tcNo;
 
-	public User(String email,String name,String surname,String tcNo) {
+	public User(String email,String name,String surname,String tcNo,String telNo) {
 		this.email = email;
 		this.name = name;
 		this.surname = surname;
