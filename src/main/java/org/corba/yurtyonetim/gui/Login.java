@@ -66,7 +66,7 @@ public class Login {
         Parent root;
         Scene scene;
 
-        root = FXMLLoader.load(getClass().getResource("mainmenu.fxml"));
+        root = FXMLLoader.load(getClass().getResource("studentmanagement.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
