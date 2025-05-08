@@ -1,7 +1,5 @@
 package org.corba.yurtyonetim.users;
 
-import org.controlsfx.control.tableview2.filter.filtereditor.SouthFilter;
-
 import java.sql.*;
 import java.util.*;
 
@@ -39,7 +37,7 @@ public class Manager extends User {
     }
 
 
-    public void deleteStudent(){
+    public void deleteStudent(Student student){
 
     }
 
@@ -174,15 +172,160 @@ public class Manager extends User {
 
     }
 
-    public void searchStudent(){
+    public void searchStudent() {
+        System.out.println("Öğrenci arama kriterleri:");
+        System.out.println("1. T.C. Kimlik No ile ara");
+        System.out.println("2. Ad ile ara");
+        System.out.println("3. Soyad ile ara");
+        System.out.println("4. Telefon numarası ile ara");
+        System.out.println("5. E-posta ile ara");
+        System.out.println("6. Yurt adı ile ara");
+        System.out.print("Seçiminiz (1-6): ");
+        
+        String secim = scanner.nextLine();
+        String aramaKriteri = "";
+        String sql = "";
+        
+        switch (secim) {
+            case "1":
+                System.out.print("T.C. Kimlik No: ");
+                aramaKriteri = scanner.nextLine();
+                sql = "SELECT * FROM ogrenci WHERE tcNo = ?";
+                break;
+            case "2":
+                System.out.print("Ad: ");
+                aramaKriteri = scanner.nextLine();
+                sql = "SELECT * FROM ogrenci WHERE name LIKE ?";
+                aramaKriteri = "%" + aramaKriteri + "%";
+                break;
+            case "3":
+                System.out.print("Soyad: ");
+                aramaKriteri = scanner.nextLine();
+                sql = "SELECT * FROM ogrenci WHERE surname LIKE ?";
+                aramaKriteri = "%" + aramaKriteri + "%";
+                break;
+            case "4":
+                System.out.print("Telefon numarası: ");
+                aramaKriteri = scanner.nextLine();
+                sql = "SELECT * FROM ogrenci WHERE telNo = ?";
+                break;
+            case "5":
+                System.out.print("E-posta: ");
+                aramaKriteri = scanner.nextLine();
+                sql = "SELECT * FROM ogrenci WHERE eposta = ?";
+                break;
+            case "6":
+                System.out.print("Yurt adı: ");
+                aramaKriteri = scanner.nextLine();
+                sql = "SELECT * FROM ogrenci WHERE currentDorm = ?";
+                break;
+            default:
+                System.out.println("Geçersiz seçim!");
+                return;
+        }
 
+        try (Connection conn = DriverManager.getConnection(url, user, databasePassword);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setString(1, aramaKriteri);
+            ResultSet rs = pstmt.executeQuery();
+            
+            boolean sonucBulundu = false;
+            
+            while (rs.next()) {
+                sonucBulundu = true;
+                System.out.println("\nÖğrenci Bilgileri:");
+                System.out.println("Ad: " + rs.getString("name"));
+                System.out.println("Soyad: " + rs.getString("surname"));
+                System.out.println("T.C. Kimlik No: " + rs.getString("tcNo"));
+                System.out.println("Telefon No: " + rs.getString("telNo"));
+                System.out.println("E-posta: " + rs.getString("eposta"));
+                System.out.println("Yurt: " + rs.getString("currentDorm"));
+                System.out.println("Disiplin Puanı: " + rs.getInt("disiplinNo"));
+                System.out.println("İzinli mi: " + (rs.getBoolean("isOnLeave") ? "Evet" : "Hayır"));
+                System.out.println("------------------------");
+            }
+            
+            if (!sonucBulundu) {
+                System.out.println("Arama kriterlerine uygun öğrenci bulunamadı.");
+            }
+            
+        } catch (SQLException e) {
+            System.out.println("Arama hatası: " + e.getMessage());
+        }
     }
-    public void listStudents(){
+public void listStudents() {
+    String sql = "SELECT * FROM ogrenci ORDER BY surname, name";
 
-    }
-    public void showUserInfo(){
+    try (Connection conn = DriverManager.getConnection(url, user, databasePassword);
+         Statement stmt = conn.createStatement();
+         ResultSet rs = stmt.executeQuery(sql)) {
 
+        boolean ogrenciVar = false;
+        int ogrenciSayisi = 0;
+
+        System.out.println("\n=== TÜM ÖĞRENCİ LİSTESİ ===\n");
+        System.out.println(String.format("%-20s %-20s %-15s %-15s %-30s %-15s %-15s %-10s",
+                "Ad", "Soyad", "TC No", "Telefon", "E-posta", "Yurt", "Disiplin P.", "İzin"));
+        System.out.println("-".repeat(130));
+
+        while (rs.next()) {
+            ogrenciVar = true;
+            ogrenciSayisi++;
+
+            // TC ve telefon numarasının son 4 hanesini göster, diğerlerini * ile maskele
+            String maskeliTC = rs.getString("tcNo").substring(0, 7) + "****";
+            String maskeliTel = "******" + rs.getString("telNo").substring(6);
+
+            System.out.println(String.format("%-20s %-20s %-15s %-15s %-30s %-15s %-15d %-10s",
+                    rs.getString("name"),
+                    rs.getString("surname"),
+                    maskeliTC,
+                    maskeliTel,
+                    rs.getString("eposta"),
+                    rs.getString("currentDorm"),
+                    rs.getInt("disiplinNo"),
+                    rs.getBoolean("isOnLeave") ? "Evet" : "Hayır"
+            ));
+        }
+
+        System.out.println("-".repeat(130));
+        
+        if (!ogrenciVar) {
+            System.out.println("Sistemde kayıtlı öğrenci bulunmamaktadır.");
+        } else {
+            System.out.println("\nToplam Öğrenci Sayısı: " + ogrenciSayisi);
+        }
+
+    } catch (SQLException e) {
+        System.out.println("Listeleme hatası: " + e.getMessage());
     }
+}
+    public void showUserInfo() {
+    System.out.println("\n=== YÖNETİCİ BİLGİLERİ ===\n");
+    System.out.println("Ad: " + getName());
+    System.out.println("Soyad: " + getSurname());
+    
+    // TC Kimlik numarasını maskele (ilk 7 hane görünür, son 4 hane gizli)
+    String maskedTcNo = getTcNo().substring(0, 7) + "****";
+    System.out.println("T.C. Kimlik No: " + maskedTcNo);
+    
+    // Telefon numarasını maskele (son 4 hane görünür)
+    String maskedTelNo = "******" + getTelNo().substring(6);
+    System.out.println("Telefon No: " + maskedTelNo);
+    
+    System.out.println("E-posta: " + getEmail());
+    
+    // Yetki düzeyini göster
+    System.out.println("Yetki Düzeyi: Yönetici");
+    
+    System.out.println("\nSistem Yetkileri:");
+    System.out.println("- Öğrenci ekleme");
+    System.out.println("- Öğrenci silme");
+    System.out.println("- Öğrenci arama");
+    System.out.println("- Öğrenci listeleme");
+    System.out.println("- Yurt doluluk kontrolü");
+}
 
     public boolean tcKontrol(String kontrolet) {
         String sql = "SELECT 1 FROM ogrenci WHERE tcNo = ?";
@@ -256,4 +399,4 @@ public class Manager extends User {
 
 
 
-}
+}//amınEvladıAi farkı ile showInfo listStudents ve searchStudent methodu yazıldı
