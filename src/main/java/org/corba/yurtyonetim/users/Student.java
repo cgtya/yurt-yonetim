@@ -345,7 +345,7 @@ public void enteringDicipline(Manager manager) {
         return remainingDays;
     }
 
-//08.05.2025 gece 23.49 rollbackleri anca koyabildim factorio falan oynamayacağım yatış zamanı
+//08.05.2025 gece 23.49 rollbackleri anca koyabildim factorio falan oynamayacağım yatış zamanı 2
 
 
 
