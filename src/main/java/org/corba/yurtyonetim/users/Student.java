@@ -28,7 +28,15 @@ public class Student extends User {
     public void requestTransfer(){
         // transfer talebi
     }
-    public void
+    public void isOnLeave(){
+
+    }
+    public boolean giveLeave(){
+       return true;
+    }
+    public void enteringDicipline(){
+
+    }
 
 
 }
