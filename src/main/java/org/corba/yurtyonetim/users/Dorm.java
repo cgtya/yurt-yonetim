@@ -6,8 +6,6 @@ public class Dorm {
     public Dorm(String name) {
         this.name = name;
     }
-    public boolean isDormFull(){
-        return true;
-    }
+
 
 }

@@ -53,9 +53,6 @@ public abstract class User {
 	public void setTcNo(String tcNo) {
 		this.tcNo = tcNo;
 	}
-	
-	
-
 
 
 	
