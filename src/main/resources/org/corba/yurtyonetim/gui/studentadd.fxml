@@ -99,7 +99,7 @@
                   <TextField fx:id="mailBox" promptText="E-posta" />
                   <TextField fx:id="phoneBox" promptText="Telefon No." />
                   <TextField fx:id="IDBox" promptText="T.C. Kimlik No" />
-                  <Button mnemonicParsing="false" text="Öğrenciyi Kaydet">
+                  <Button mnemonicParsing="false" onAction="#buttonClickAddStudent" text="Öğrenciyi Kaydet">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
