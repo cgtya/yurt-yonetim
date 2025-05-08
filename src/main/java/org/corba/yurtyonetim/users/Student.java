@@ -59,7 +59,7 @@ public class Student extends User {
 
 
     public Student(String email, String name, String surname, String tcNo, String telNo,
-              String currentDorm, String roomNo, int diciplineNo, boolean isOnleave, 
+              String currentDorm, String roomNo, int diciplineNo, boolean isOnleave,
               int totalLeaveDays) {
     super(email, name, surname, tcNo, telNo);
     this.currentDorm = currentDorm;
@@ -326,7 +326,7 @@ public void enteringDicipline(Manager manager) {
         
         return remainingDays;
     }
-
+//deneme
 
 
 
