@@ -87,18 +87,18 @@
         <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" BorderPane.alignment="CENTER">
             <children>
                 <Separator orientation="VERTICAL" prefHeight="200.0" />
-            <VBox prefHeight="200.0" prefWidth="250.0" spacing="15.0">
+            <VBox spacing="15.0">
                <children>
                   <Label prefHeight="22.0" prefWidth="119.0" text="Öğrenci Ekleme">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="nameBox" promptText="Ad" />
-                  <TextField fx:id="surnameBox" promptText="Soyad" />
-                  <TextField fx:id="mailBox" promptText="E-posta" />
-                  <TextField fx:id="phoneBox" promptText="Telefon No." />
-                  <TextField fx:id="IDBox" promptText="T.C. Kimlik No" />
+                  <TextField fx:id="nameBox" maxWidth="-Infinity" prefWidth="250.0" promptText="Ad" />
+                  <TextField fx:id="surnameBox" maxWidth="-Infinity" prefWidth="250.0" promptText="Soyad" />
+                  <TextField fx:id="mailBox" maxWidth="-Infinity" prefWidth="250.0" promptText="E-posta" />
+                  <TextField fx:id="phoneBox" maxWidth="-Infinity" prefWidth="250.0" promptText="Telefon No." />
+                  <TextField fx:id="IDBox" maxWidth="-Infinity" prefWidth="250.0" promptText="T.C. Kimlik No" />
                   <Button mnemonicParsing="false" onAction="#buttonClickAddStudent" text="Öğrenciyi Kaydet">
                      <VBox.margin>
                         <Insets />

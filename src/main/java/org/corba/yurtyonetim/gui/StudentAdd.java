@@ -34,7 +34,7 @@ public class StudentAdd extends BaseMenu {
         String phoneInput = phoneBox.getText();
 
         boolean minLengthCheck = !nameInput.isEmpty() && !surnameInput.isEmpty() && !mailInput.isEmpty() && !phoneInput.isEmpty() && !tcInput.isEmpty();
-        boolean maxLengthCheck = nameInput.length()<41 && surnameInput.length()<41 && mailInput.length()<41 && phoneInput.length()<11 && tcInput.length()<11;
+        boolean maxLengthCheck = nameInput.length()<41 && surnameInput.length()<41 && mailInput.length()<41 && phoneInput.length()<11 && tcInput.length()<12;
 
         //karakter uzunluğu kontrolleri
         if (!minLengthCheck) {
@@ -98,10 +98,8 @@ public class StudentAdd extends BaseMenu {
 
         //Manager.addStudent();
 
-        statusLabel.setText("eklendi!!!");
+        statusLabel.setText("eklendi!!! (yani çalışıyo olsa eklenirdi)");
         statusLabel.setTextFill(Color.GREEN);
-
-
 
 
     }
