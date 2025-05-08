@@ -6,9 +6,9 @@ import java.util.*;
 public class Manager extends User {
 
     Scanner scanner = new Scanner(System.in);
-    private final String url = "jdbc:mysql://localhost:3306/ogrenciler?useSSL=false&serverTimezone=UTC";
-    private final String user = "root";
-    private final String databasePassword = "Omer200526a";
+    private static final String url = "jdbc:mysql://localhost:3306/ogrenciler?useSSL=false&serverTimezone=UTC";
+    private static final String user = "root";
+    private static final String databasePassword = "Omer200526a";
 
     public String tempOg_Name;
     public String tempOg_Surname;
@@ -44,59 +44,7 @@ public class Manager extends User {
     public void addStudent(){
         String sql = "INSERT INTO ogrenci (name, surname, tcNo, telNo, eposta, currentDorm, disiplinNo, isOnLeave) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        while(true){
-            System.out.println("Eklemek istediğiniz öğrencinin T.C. Kimlik Numarasını girin: ");
-            tempOg_tcNo= scanner.nextLine();
-            String tcNoRegex = "^[1-9][0-9]{10}$"; // 11 haneli ve 0 ile başlamayan
-            if (!tempOg_tcNo.matches(tcNoRegex)) {
-                System.out.println("Hata: Geçersiz TC Kimlik No! 11 haneli olmalı ve 0 ile başlamamalı.");
-                continue;
-            }else{
-                if(tcKontrol(tempOg_tcNo)){
-                    System.out.println("Aradığınız Kimlik Numarasına sahip bir öğrenci zaten vardır, tekrar girin.");
-                }else{
-                    break;
-                }
-            }
-        }
-
-        System.out.println("Eklemek istediğiniz öğrencinin adını girin: ");
-        tempOg_Name= scanner.nextLine();
-        System.out.println("Eklemek istediğiniz öğrencinin soyadını girin: ");
-        tempOg_Surname= scanner.nextLine();
-
-
-        while(true){
-            System.out.println("Eklemek istediğiniz öğrencinin telefon numarasını girin: ");
-            tempOg_telNo= scanner.nextLine();
-            String telNoRegex = "^5[0-9]{9}$"; // 5 ile başlayan 10 haneli numara
-            if (!tempOg_telNo.matches(telNoRegex)) {
-                System.out.println("Hata: Geçersiz telefon numarası! 5 ile başlamalı ve 10 haneli olmalı.");
-                continue;
-            }else{
-                if(telnoKontrol(tempOg_telNo)){
-                    System.out.println("Aradığınız telefon numarasına sahip bir öğrenci zaten vardır, tekrar girin.");
-                }else{
-                    break;
-                }
-            }
-        }
-
-        while(true){
-            System.out.println("Eklemek istediğiniz öğrencinin E-Posta adresini girin: ");
-            tempOg_eposta= scanner.nextLine();
-            String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
-            if (!tempOg_eposta.matches(emailRegex)) {
-                System.out.println("Hata: Geçersiz e-posta adresi!");
-                continue;
-            }else{
-                if(epostakontrol(tempOg_eposta)){
-                    System.out.println("Aradığınız E-Posta adresine sahip bir öğrenci zaten vardır, tekrar girin.");
-                }else{
-                    break;
-                }
-            }
-        }
+        //TODO import tc kimlik , name, surname, tel no, mail
 
         Set<String> bosYurtlar = new HashSet<>();
         String sqlYurt = "SELECT * FROM yurtlar LIMIT 1";
@@ -327,7 +275,7 @@ public void listStudents() {
     System.out.println("- Yurt doluluk kontrolü");
 }
 
-    public boolean tcKontrol(String kontrolet) {
+    public static boolean tcKontrol(String kontrolet) {
         String sql = "SELECT 1 FROM ogrenci WHERE tcNo = ?";
 
         try (Connection conn = DriverManager.getConnection(url, user, databasePassword);
@@ -344,7 +292,7 @@ public void listStudents() {
         }
     }
 
-    public boolean telnoKontrol(String kontrolet) {
+    public static boolean telnoKontrol(String kontrolet) {
         String sql = "SELECT 1 FROM ogrenci WHERE telNo = ?";
 
         try (Connection conn = DriverManager.getConnection(url, user, databasePassword);
@@ -361,7 +309,7 @@ public void listStudents() {
         }
     }
 
-    public boolean epostakontrol(String kontrolet) {
+    public static boolean epostakontrol(String kontrolet) {
         String sql = "SELECT 1 FROM ogrenci WHERE eposta = ?";
 
         try (Connection conn = DriverManager.getConnection(url, user, databasePassword);
