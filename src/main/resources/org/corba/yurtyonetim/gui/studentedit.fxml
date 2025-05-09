@@ -119,7 +119,7 @@
             </HBox>
             <HBox>
                <children>
-                  <Label fx:id="statusLabel" minWidth="400.0">
+                  <Label fx:id="statusLabel" minWidth="600.0">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="8.0" />
                      </HBox.margin>
@@ -194,7 +194,7 @@
                         <Insets top="25.0" />
                      </HBox.margin>
                   </Label>
-                  <Button fx:id="penaltyButton" disable="true" mnemonicParsing="false" text="Uyarı ver">
+                  <Button fx:id="penaltyButton" disable="true" mnemonicParsing="false" onAction="#penaltyButtonClick" text="Uyarı ver">
                      <HBox.margin>
                         <Insets left="5.0" top="20.0" />
                      </HBox.margin>
@@ -236,7 +236,7 @@
             <HBox />
             <HBox>
                <children>
-                  <Button fx:id="applyButton" disable="true" mnemonicParsing="false" text="Değişiklikleri kaydet">
+                  <Button fx:id="applyButton" disable="true" mnemonicParsing="false" onAction="#saveButtonClick" text="Değişiklikleri kaydet">
                      <HBox.margin>
                         <Insets left="5.0" top="20.0" />
                      </HBox.margin>

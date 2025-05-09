@@ -39,8 +39,29 @@ public class StudentEdit extends BaseMenu  {
     @FXML
     private Button deleteButton;
 
+    Student student;
 
-
+    //gorev tamamlandığında sayfayı eski haline döndüren fonksiyon
+    private void resetPage() {
+        nameBox.clear();
+        surnameBox.clear();
+        mailBox.clear();
+        phoneBox.clear();
+        dormBox.clear();
+        penaltyLabel.setText("");
+        onLeaveCheck.setSelected(false);
+        nameBox.setDisable(true);
+        surnameBox.setDisable(true);
+        mailBox.setDisable(true);
+        phoneBox.setDisable(true);
+        penaltyButton.setDisable(true);
+        applyButton.setDisable(true);
+        deleteButton.setDisable(true);
+        tcBox.setDisable(false);
+        searchButton.setDisable(false);
+        statusLabel.setText("");
+        student = null;
+    }
 
 
     public void searchButtonClick(ActionEvent event) {
@@ -61,7 +82,6 @@ public class StudentEdit extends BaseMenu  {
         tcBox.setDisable(true);
         searchButton.setDisable(true);
 
-        Student student;
 
         //database erişiminde sorun yaşanması/öğrenci bulunamaması durumu için kontrol
         try {
@@ -102,6 +122,67 @@ public class StudentEdit extends BaseMenu  {
     }
 
 
+    //değişiklikleri student classına kaydedip database fonksiyonuna gönderir
+    public void saveButtonClick(ActionEvent event){
+        String newName = nameBox.getText();
+        String newSurname = surnameBox.getText();
+        String newMail = mailBox.getText();
+        String newPhone = phoneBox.getText();
 
+        String emailRegex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$"; //mail regex
+        String telNoRegex = "^5[0-9]{9}$"; // 5 ile başlayan 10 haneli numara
+
+        //girişler geçerli mi diye kontroller
+        if (newName.isEmpty() || newSurname.isEmpty() || newMail.isEmpty() || newPhone.isEmpty()) {
+            statusLabel.setText("Boş kutucuk bırakmayınız!");
+            statusLabel.setTextFill(Color.RED);
+            return;
+        }
+
+        if (!newMail.matches(emailRegex)) {
+            statusLabel.setText("Geçersiz E-Posta!");
+            statusLabel.setTextFill(Color.RED);
+            return;
+        }
+
+        if (!newPhone.matches(telNoRegex)) {
+            statusLabel.setText("Geçersiz telefon!");
+            statusLabel.setTextFill(Color.RED);
+            return;
+        }
+
+        if (newName.length()>41 || newSurname.length()>41) {
+            statusLabel.setText("40 karakteri geçmeyiniz!");
+            statusLabel.setTextFill(Color.RED);
+            return;
+        }
+
+        student.setName(newName);
+        student.setSurname(newSurname);
+        student.setEmail(newMail);
+        student.setTelNo(newPhone);
+
+        String message = staticgecici.updateStudentInDatabase(student);
+
+        resetPage();
+
+        statusLabel.setText(message);
+        statusLabel.setTextFill(Color.GREEN);
+
+
+    }
+
+    //cezayı 1 artırıp sayfayı sıfırlar
+    public void penaltyButtonClick(ActionEvent event) {
+
+        String message = staticgecici.addDisiplineRecord(student.getTcNo());
+
+        resetPage();
+
+        statusLabel.setText(message);
+        statusLabel.setTextFill(Color.RED);
+    }
+
+    //TODO öğrenci silme
 
 }
