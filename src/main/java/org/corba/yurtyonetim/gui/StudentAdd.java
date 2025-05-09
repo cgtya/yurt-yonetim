@@ -2,13 +2,19 @@ package org.corba.yurtyonetim.gui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import javafx.scene.paint.Color;
 import org.corba.yurtyonetim.users.Manager;
+import org.corba.yurtyonetim.users.Student;
+import org.corba.yurtyonetim.users.staticgecici;
 
-public class StudentAdd extends BaseMenu {
+import java.sql.SQLException;
+
+public class StudentAdd extends BaseMenu implements Initializable {
     @FXML
     private TextField nameBox;
     @FXML
@@ -21,6 +27,15 @@ public class StudentAdd extends BaseMenu {
     private TextField IDBox;
     @FXML
     private Label statusLabel;
+    @FXML
+    private ChoiceBox<String> dormBox;
+
+    Student student;
+
+    @Override
+    public void initialize(java.net.URL url, java.util.ResourceBundle rb) {
+        dormBox.getItems().addAll(staticgecici.getBosYurtlar());
+    }
 
     public void buttonClickAddStudent(ActionEvent event) {
         String tcNoRegex = "^[1-9][0-9]{10}$"; // 11 haneli ve 0 ile başlamayan
@@ -48,7 +63,7 @@ public class StudentAdd extends BaseMenu {
             return;
         }
 
-        //geçerli tc kimlik kontrolü TODO aktif edilecek
+        //geçerli ve özgün tc kimlik kontrolü
         if (!tcInput.matches(tcNoRegex)) {
             statusLabel.setText("Geçersiz TC Kimlik No! 11 haneli olmalı ve 0 ile başlamamalı.");
             statusLabel.setTextFill(Color.RED);
@@ -56,7 +71,18 @@ public class StudentAdd extends BaseMenu {
             return;
         } else {
 
-            if (Manager.tcKontrol(tcInput)) {
+            boolean alreadyExists;
+
+            //veritabanı erişiminde sorun yaşanması durumu için kontrol
+            try {
+                alreadyExists = staticgecici.tcKontrol(tcInput);
+            } catch (SQLException e) {
+                statusLabel.setText("Veritabanı erişiminde sorun yaşandı: " + e.getMessage());
+                statusLabel.setTextFill(Color.RED);
+                return;
+            }
+
+            if (alreadyExists) {
                 statusLabel.setText("Girdiğiniz kimlik numarasına sahip bir öğrenci zaten vardır!");
                 statusLabel.setTextFill(Color.RED);
                 IDBox.clear();
@@ -64,41 +90,70 @@ public class StudentAdd extends BaseMenu {
             }
 
         }
-        //geçerli mail kontrolü TODO aktif edilecek
+
+        //geçerli ve özgün mail kontrolü
         if (!mailInput.matches(emailRegex)) {
             statusLabel.setText("Geçersiz e-posta!");
             statusLabel.setTextFill(Color.RED);
             mailBox.clear();
             return;
         } else {
+            boolean alreadyExists;
 
-            if(Manager.epostakontrol(mailInput)){
-                statusLabel.setText("Aradığınız E-Posta adresine sahip bir öğrenci zaten vardır.");
-                mailBox.clear();
+            //veritabanı erişiminde sorun yaşanması durumu için kontrol
+            try {
+                alreadyExists = staticgecici.epostaKontrol(mailInput);
+            } catch (SQLException e) {
+                statusLabel.setText("Veritabanı erişiminde sorun yaşandı: " + e.getMessage());
+                statusLabel.setTextFill(Color.RED);
+                return;
+            }
+
+            if (alreadyExists) {
+                statusLabel.setText("Girdiğiniz e-postaya sahip bir öğrenci zaten vardır!");
+                statusLabel.setTextFill(Color.RED);
+                IDBox.clear();
                 return;
             }
 
         }
 
-        //geçerli telefon kontrolü TODO aktif edilecek
+        //geçerli ve özgün telefon kontrolü
         if (!phoneInput.matches(telNoRegex)) {
             statusLabel.setText("Geçersiz telefon numarası! 5 ile başlamalı ve 10 haneli olmalı.");
             statusLabel.setTextFill(Color.RED);
             phoneBox.clear();
             return;
         } else {
+            boolean alreadyExists;
 
-            if(Manager.telnoKontrol(phoneInput)){
-                statusLabel.setText("Aradığınız telefon numarasına sahip bir öğrenci zaten vardır.");
-                phoneBox.clear();
+            //veritabanı erişiminde sorun yaşanması durumu için kontrol
+            try {
+                alreadyExists = staticgecici.telNoKontrol(phoneInput);
+            } catch (SQLException e) {
+                statusLabel.setText("Veritabanı erişiminde sorun yaşandı: " + e.getMessage());
+                statusLabel.setTextFill(Color.RED);
                 return;
             }
 
+            if (alreadyExists) {
+                statusLabel.setText("Girdiğiniz telefon numarasına sahip bir öğrenci zaten vardır!");
+                statusLabel.setTextFill(Color.RED);
+                IDBox.clear();
+                return;
+            }
         }
 
-        //Manager.addStudent();
+        String dormInput = dormBox.getValue();
 
-        statusLabel.setText("eklendi!!! (yani çalışıyo olsa eklenirdi)");
+        //veritabanına yükleyen metod için student nesnesi oluşturuldu
+        student = new Student(nameInput,surnameInput,tcInput,phoneInput,mailInput,dormInput,0,false);
+
+        //student nesnesi veritabanına yüklenir
+
+        staticgecici.addStudentStatic(student);
+
+        statusLabel.setText("eklendi!!!");
         statusLabel.setTextFill(Color.GREEN);
 
 

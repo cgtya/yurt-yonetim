@@ -330,6 +330,39 @@ public class staticgecici {
     }
 
 
+    public static Set<String> getBosYurtlar() { //bu method boş yurtları combobox biçiminde gui üzerinde listeleyebilmek için
+        Set<String> bosYurtlar = new HashSet<>();
+        String sqlYurtlar = "SELECT * FROM yurtlar LIMIT 1";
+
+        try (Connection conn = DriverManager.getConnection(url, user, databasePassword)) {
+
+
+            //boş yurtları topla
+            try (Statement stmt = conn.createStatement();
+                 ResultSet rs = stmt.executeQuery(sqlYurtlar)) {
+
+                if (rs.next()) {
+                    ResultSetMetaData meta = rs.getMetaData();
+                    int columnCount = meta.getColumnCount();
+
+                    for (int i = 1; i <= columnCount; i++) {
+                        String yurtAdi = meta.getColumnName(i);
+                        int doluluk = rs.getInt(i);
+
+                        if (doluluk < 200) {
+                            bosYurtlar.add(yurtAdi);
+                        }
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Boş yurtlar alınamadı: " + e.getMessage());
+        }
+        return bosYurtlar;
+    }
+
+
 
     public static String searchStudent(String tcNo) {
         String sql = "SELECT * FROM ogrenci WHERE tcNo = ?";
@@ -530,6 +563,57 @@ public class staticgecici {
             } catch (SQLException e) {
                 return "Bağlantı kapatma hatası: " + e.getMessage();
             }
+        }
+    }
+
+    //veritabanında halihazırda aynı tc ile kayıtlı öğrenci var mı diye kontrol
+    public static boolean tcKontrol(String kontrolet) throws SQLException{
+        String sql = "SELECT 1 FROM ogrenci WHERE tcNo = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, user, databasePassword);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, kontrolet);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                return rs.next();
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Sorgu hatası: " + e.getMessage());
+            throw e; //exception ı sonraki metodda işlenmesi için iletir
+        }
+    }
+
+    public static boolean epostaKontrol(String kontrolet) throws SQLException {
+        String sql = "SELECT 1 FROM ogrenci WHERE eposta = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, user, databasePassword);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, kontrolet);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                return rs.next();
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Sorgu hatası: " + e.getMessage());
+            throw e;
+        }
+    }
+
+    public static boolean telNoKontrol(String kontrolet) throws SQLException{
+        String sql = "SELECT 1 FROM ogrenci WHERE telNo = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, user, databasePassword);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, kontrolet);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                return rs.next();
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Sorgu hatası: " + e.getMessage());
+            throw e;
         }
     }
 

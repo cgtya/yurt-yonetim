@@ -227,56 +227,11 @@ public void listStudents() {
     System.out.println("- Yurt doluluk kontrolü");
 }
 
-    public static boolean tcKontrol(String kontrolet) {
-        String sql = "SELECT 1 FROM ogrenci WHERE tcNo = ?";
 
-        try (Connection conn = DriverManager.getConnection(url, user, databasePassword);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, kontrolet);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.next();
-            }
 
-        } catch (SQLException e) {
-            System.out.println("Sorgu hatası: " + e.getMessage());
-            return false;
-        }
-    }
 
-    public static boolean telnoKontrol(String kontrolet) {
-        String sql = "SELECT 1 FROM ogrenci WHERE telNo = ?";
 
-        try (Connection conn = DriverManager.getConnection(url, user, databasePassword);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, kontrolet);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.next();
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Sorgu hatası: " + e.getMessage());
-            return false;
-        }
-    }
-
-    public static boolean epostakontrol(String kontrolet) {
-        String sql = "SELECT 1 FROM ogrenci WHERE eposta = ?";
-
-        try (Connection conn = DriverManager.getConnection(url, user, databasePassword);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, kontrolet);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.next();
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Sorgu hatası: " + e.getMessage());
-            return false;
-        }
-    }
 
     public boolean yurtDoluMu(String yurtAdi) {
         String sql = "SELECT " + yurtAdi + " FROM yurtlar";
