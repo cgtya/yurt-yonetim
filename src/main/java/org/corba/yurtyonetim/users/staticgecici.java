@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.*;
 
 public class staticgecici {
-    private static final String url = "jdbc:mysql://localhost:3306/ogrenciler?useSSL=false&serverTimezone=UTC";
+    private static final String url = "jdbc:mysql://localhost:3306/kullanicilar?useSSL=false&serverTimezone=UTC";
     private static final String user = "root";
     private static final String databasePassword = "Omer200526a";
 
@@ -458,6 +458,78 @@ public class staticgecici {
 
         } catch (SQLException e) {
             return "Güncelleme sırasında hata oluştu: " + e.getMessage();
+        }
+    }
+
+    public static String addDisiplineRecord(String tcNo) {
+        String sqlSelect = "SELECT currentDorm, disiplinNo FROM ogrenci WHERE tcNo = ?";
+        String sqlUpdateDisiplin = "UPDATE ogrenci SET disiplinNo = ? WHERE tcNo = ?";
+        String sqlDeleteStudent = "DELETE FROM ogrenci WHERE tcNo = ?";
+        String sqlUpdateDormTemplate = "UPDATE yurtlar SET %s = %s - 1";
+
+        Connection conn = null;
+
+        try {
+            conn = DriverManager.getConnection(url, user, databasePassword);
+            conn.setAutoCommit(false);
+
+            String currentDorm;
+            int currentDisiplin;
+
+            // Öğrencinin disiplin ve yurt bilgisini al
+            try (PreparedStatement pstmt = conn.prepareStatement(sqlSelect)) {
+                pstmt.setString(1, tcNo);
+                ResultSet rs = pstmt.executeQuery();
+
+                if (rs.next()) {
+                    currentDorm = rs.getString("currentDorm");
+                    currentDisiplin = rs.getInt("disiplinNo");
+                } else {
+                    return "Bu TC numarasına sahip öğrenci bulunamadı.";
+                }
+            }
+
+            int yeniDisiplin = currentDisiplin + 1;
+
+            if (yeniDisiplin < 3) {
+                // Disiplin sayısını artır
+                try (PreparedStatement pstmt = conn.prepareStatement(sqlUpdateDisiplin)) {
+                    pstmt.setInt(1, yeniDisiplin);
+                    pstmt.setString(2, tcNo);
+                    pstmt.executeUpdate();
+                }
+                conn.commit();
+                return "⚠Öğrencinin disiplin cezası 1 artırıldı. Toplam ceza sayısı: " + yeniDisiplin;
+            } else {
+                // cezayı aldıysa → öğrenciyi sil + yurt sayısını azalt
+                try (PreparedStatement pstmt = conn.prepareStatement(sqlDeleteStudent)) {
+                    pstmt.setString(1, tcNo);
+                    pstmt.executeUpdate();
+                }
+
+                // Yurt doluluğunu azaltıyoruz
+                String finalYurtUpdate = String.format(sqlUpdateDormTemplate, currentDorm, currentDorm);
+                try (Statement stmt = conn.createStatement()) {
+                    stmt.executeUpdate(finalYurtUpdate);
+                }
+
+                conn.commit();
+                return "Öğrenci 3 disiplin cezası aldığı için sistemden silindi ve " + currentDorm + " yurdunun doluluğu 1 azaltıldı.";
+            }
+
+        } catch (SQLException e) {
+            try {
+                if (conn != null) conn.rollback();
+            } catch (SQLException ex) {
+                return "Rollback başarısız: " + ex.getMessage();
+            }
+            return "Veritabanı hatası: " + e.getMessage();
+        } finally {
+            try {
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                return "Bağlantı kapatma hatası: " + e.getMessage();
+            }
         }
     }
 
