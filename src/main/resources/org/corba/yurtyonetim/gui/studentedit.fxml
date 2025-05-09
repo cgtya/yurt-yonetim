@@ -100,7 +100,7 @@
                <children>
                   <Label text="Öğrenci Bilgilerini Düzenleme">
                      <HBox.margin>
-                        <Insets bottom="5.0" right="5.0" top="8.0" />
+                        <Insets bottom="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                      <font>
                         <Font name="System Bold" size="20.0" />
@@ -260,7 +260,7 @@
             </HBox>
          </children>
          <BorderPane.margin>
-            <Insets left="5.0" />
+            <Insets left="5.0" top="5.0" />
          </BorderPane.margin>
       </VBox>
     </center>

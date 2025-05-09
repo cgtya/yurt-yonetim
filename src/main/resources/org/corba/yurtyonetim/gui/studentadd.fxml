@@ -122,7 +122,7 @@
                   </Label>
                </children>
                <HBox.margin>
-                  <Insets top="5.0" />
+                  <Insets left="5.0" top="10.0" />
                </HBox.margin>
             </VBox>
             </children>
