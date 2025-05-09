@@ -183,6 +183,151 @@ public class staticgecici {
         }
     }
 
+    public static String nakilYapStatic(String tc, String hedefYurt) {
+        String mevcutYurt = null;
+        String name = null;
+        Set<String> uygunYurtlar = new HashSet<>();
+
+        String sqlGetYurt = "SELECT currentDorm FROM ogrenci WHERE tcNo = ?";
+        String sqlUpdateYurt = "UPDATE ogrenci SET currentDorm = ? WHERE tcNo = ?";
+        String sqlYurtlar = "SELECT * FROM yurtlar LIMIT 1";
+        String sqlGetStudentName = "SELECT name FROM ogrenci WHERE tcNo = ?";
+
+        Connection conn = null;
+
+        try {
+            conn = DriverManager.getConnection(url, user, databasePassword);
+            conn.setAutoCommit(false);
+
+            // Öğrenciyi buluyoruz ve kimlik numarası var mı kontrol edip eğer varsa mevcut yurdunu alıyoruz
+            try (PreparedStatement pstmt = conn.prepareStatement(sqlGetYurt)) {
+                pstmt.setString(1, tc);
+                ResultSet rs = pstmt.executeQuery();
+                if (rs.next()) {
+                    mevcutYurt = rs.getString("currentDorm");
+                } else {
+                    return "Bu TC numarasına sahip öğrenci bulunamadı.";
+                }
+            }
+
+            //Öğrencinin adını alıyoruz ki bilgi çıktısında gösterebilelim
+            try (PreparedStatement pstmt = conn.prepareStatement(sqlGetStudentName)) {
+                pstmt.setString(1, tc);
+                ResultSet rs = pstmt.executeQuery();
+                if (rs.next()) {
+                    name = rs.getString("name");
+                }
+            }
+
+            // Mevcut yurt hariç boş yer olan yurtları listelemeye yarayan kısım
+            try (Statement stmt = conn.createStatement();
+                 ResultSet rs = stmt.executeQuery(sqlYurtlar)) {
+
+                if (rs.next()) {
+                    ResultSetMetaData meta = rs.getMetaData();
+                    int sutunSayisi = meta.getColumnCount();
+
+                    for (int i = 1; i <= sutunSayisi; i++) {
+                        String yurtAdi = meta.getColumnName(i);
+                        int doluluk = rs.getInt(i);
+
+                        if (doluluk < 200 && !yurtAdi.equalsIgnoreCase(mevcutYurt)) {
+                            uygunYurtlar.add(yurtAdi);
+                        }
+                    }
+                }
+            }
+
+            if (uygunYurtlar.isEmpty()) {
+                conn.rollback();
+                return "Hiçbir yurtta boş yer yok. Nakil yapılamaz.";
+            }
+
+            if (!uygunYurtlar.contains(hedefYurt)) {
+                conn.rollback();
+                return "Geçersiz yurt adı. Sadece boş olan yurtlara nakil yapılabilir.";
+            }
+
+            // öğrencinin yurdunu güncelliyoruz
+            try (PreparedStatement pstmt = conn.prepareStatement(sqlUpdateYurt)) {
+                pstmt.setString(1, hedefYurt);
+                pstmt.setString(2, tc);
+                pstmt.executeUpdate();
+            }
+
+            // nakil olunan yurdun mevcudunu bir artırıp nakille ayrılınan yurdun mevcudunu bir azaltıyoruz
+            try (Statement stmt = conn.createStatement()) {
+                stmt.executeUpdate("UPDATE yurtlar SET " + hedefYurt + " = " + hedefYurt + " + 1");
+                stmt.executeUpdate("UPDATE yurtlar SET " + mevcutYurt + " = " + mevcutYurt + " - 1");
+            }
+
+            conn.commit();
+            return "Nakil işlemi başarıyla tamamlandı:\n" + name + " adlı öğrencicinin kaldığı yurt bilgisi " + mevcutYurt + " yurdundan " + hedefYurt + " yurdu olacak şekilde güncellendi.";
+
+        } catch (SQLException e) {
+            try {
+                if (conn != null) conn.rollback();
+            } catch (SQLException ex) {
+                return "Rollback başarısız: " + ex.getMessage();
+            }
+            return "Nakil işlemi sırasında hata oluştu: " + e.getMessage();
+
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    return "Bağlantı kapatılamadı: " + ex.getMessage();
+                }
+            }
+        }
+    }
+
+
+    public static Set<String> getBosYurtlarForStudent(String tc) { //bu method boş yurtları combobox biçiminde gui üzerinde listeleyebilmek için
+        Set<String> bosYurtlar = new HashSet<>();
+        String mevcutYurt = null;
+        String sqlGetYurt = "SELECT currentDorm FROM ogrenci WHERE tcNo = ?";
+        String sqlYurtlar = "SELECT * FROM yurtlar LIMIT 1";
+
+        try (Connection conn = DriverManager.getConnection(url, user, databasePassword)) {
+
+            // Öğrencinin mevcut yurdunu bul
+            try (PreparedStatement pstmt = conn.prepareStatement(sqlGetYurt)) {
+                pstmt.setString(1, tc);
+                ResultSet rs = pstmt.executeQuery();
+                if (rs.next()) {
+                    mevcutYurt = rs.getString("currentDorm");
+                } else {
+                    return bosYurtlar; // Öğrenci yoksa boş set
+                }
+            }
+
+            // Mevcut yurt hariç boş yurtları topla
+            try (Statement stmt = conn.createStatement();
+                 ResultSet rs = stmt.executeQuery(sqlYurtlar)) {
+
+                if (rs.next()) {
+                    ResultSetMetaData meta = rs.getMetaData();
+                    int columnCount = meta.getColumnCount();
+
+                    for (int i = 1; i <= columnCount; i++) {
+                        String yurtAdi = meta.getColumnName(i);
+                        int doluluk = rs.getInt(i);
+
+                        if (doluluk < 200 && !yurtAdi.equalsIgnoreCase(mevcutYurt)) {
+                            bosYurtlar.add(yurtAdi);
+                        }
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Boş yurtlar alınamadı: " + e.getMessage());
+        }
+
+        return bosYurtlar;
+    }
 
 
 }
