@@ -141,18 +141,6 @@ public class StudentEdit extends BaseMenu  {
             return;
         }
 
-        if (!newMail.matches(emailRegex)) {
-            statusLabel.setText("Geçersiz E-Posta!");
-            statusLabel.setTextFill(Color.RED);
-            return;
-        }
-
-        if (!newPhone.matches(telNoRegex)) {
-            statusLabel.setText("Geçersiz telefon!");
-            statusLabel.setTextFill(Color.RED);
-            return;
-        }
-
         if (newName.length()>41 || newSurname.length()>41) {
             statusLabel.setText("40 karakteri geçmeyiniz!");
             statusLabel.setTextFill(Color.RED);
@@ -160,8 +148,11 @@ public class StudentEdit extends BaseMenu  {
         }
 
 
-        //geçerli ve özgün mail kontrolü
-        if (!newMail.matches(emailRegex)) {
+        //geçerli ve özgün mail kontrolü -- kendisine ait ise atlanır
+
+        if (newMail.equals(student.getEposta())) {
+
+        } else if (!newMail.matches(emailRegex)) {
             statusLabel.setText("Geçersiz e-posta!");
             statusLabel.setTextFill(Color.RED);
             mailBox.clear();
@@ -188,7 +179,9 @@ public class StudentEdit extends BaseMenu  {
         }
 
         //geçerli ve özgün telefon kontrolü
-        if (!newPhone.matches(telNoRegex)) {
+        if (newPhone.equals(student.getTelNo())) {
+
+        }  else if (!newPhone.matches(telNoRegex)) {
             statusLabel.setText("Geçersiz telefon numarası! 5 ile başlamalı ve 10 haneli olmalı.");
             statusLabel.setTextFill(Color.RED);
             phoneBox.clear();

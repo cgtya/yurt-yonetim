@@ -8,6 +8,7 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -38,50 +39,59 @@
         </MenuBar>
     </top>
     <left>
-        <VBox prefHeight="200.0" prefWidth="150.0" spacing="5.0" BorderPane.alignment="CENTER">
-            <children>
-                <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#mainMenu" prefHeight="48.0" prefWidth="150.0" text="Ana Ekran">
-                    <VBox.margin>
-                        <Insets />
-                    </VBox.margin>
-                    <graphic>
-                        <FontIcon iconLiteral="mdi2h-home" iconSize="24" />
-                    </graphic>
-                </Button>
-                <MenuButton mnemonicParsing="false" onAction="#studentAdd" prefHeight="50.0" prefWidth="150.0" text="Öğrenci İşlemleri">
-                    <items>
-                        <MenuItem mnemonicParsing="false" onAction="#studentAdd" text="Öğrenci Ekle" />
-                        <MenuItem mnemonicParsing="false" onAction="#studentEdit" text="Öğrenci Bilgisi Düzenle" />
-                    </items>
-                    <graphic>
-                        <FontIcon iconLiteral="mdi2a-account" iconSize="24" />
-                    </graphic>
-                </MenuButton>
-                <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#becayisManagement" prefHeight="48.0" prefWidth="150.0" text="Becayiş İşlemleri">
-                    <graphic>
-                        <FontIcon iconLiteral="mdi2b-bank-transfer" iconSize="24" text="󰨧" />
-                    </graphic>
-                </Button>
-                <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#transferManagement" prefHeight="48.0" prefWidth="150.0" text="Nakil İşlemleri">
-                    <graphic>
-                        <FontIcon iconLiteral="mdi2b-bank-transfer-in" iconSize="24" />
-                    </graphic>
-                </Button>
-                <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#editUser" prefHeight="48.0" prefWidth="150.0" text="Kullanıcı Yönetimi">
-                    <graphic>
-                        <FontIcon iconLiteral="mdi2a-account" iconSize="24" />
-                    </graphic>
-                </Button>
-                <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#logout" prefHeight="48.0" prefWidth="150.0" text="Çıkış Yap">
-                    <graphic>
-                        <FontIcon iconLiteral="mdi2l-logout" iconSize="24" />
-                    </graphic>
-                </Button>
-            </children>
-            <BorderPane.margin>
-                <Insets left="5.0" right="5.0" top="5.0" />
-            </BorderPane.margin>
-        </VBox>
+      <HBox BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets left="5.0" right="5.0" top="5.0" />
+         </BorderPane.margin>
+         <children>
+              <VBox prefHeight="200.0" prefWidth="150.0" spacing="5.0">
+                  <children>
+                      <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#mainMenu" prefHeight="48.0" prefWidth="150.0" text="Ana Ekran">
+                          <VBox.margin>
+                              <Insets />
+                          </VBox.margin>
+                          <graphic>
+                              <FontIcon iconLiteral="mdi2h-home" iconSize="24" />
+                          </graphic>
+                      </Button>
+                      <MenuButton mnemonicParsing="false" onAction="#studentAdd" prefHeight="50.0" prefWidth="150.0" text="Öğrenci İşlemleri">
+                          <items>
+                              <MenuItem mnemonicParsing="false" onAction="#studentAdd" text="Öğrenci Ekle" />
+                              <MenuItem mnemonicParsing="false" onAction="#studentEdit" text="Öğrenci Bilgisi Düzenle" />
+                          </items>
+                          <graphic>
+                              <FontIcon iconLiteral="mdi2a-account" iconSize="24" />
+                          </graphic>
+                      </MenuButton>
+                      <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#becayisManagement" prefHeight="48.0" prefWidth="150.0" text="Becayiş İşlemleri">
+                          <graphic>
+                              <FontIcon iconLiteral="mdi2b-bank-transfer" iconSize="24" text="󰨧" />
+                          </graphic>
+                      </Button>
+                      <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#transferManagement" prefHeight="48.0" prefWidth="150.0" text="Nakil İşlemleri">
+                          <graphic>
+                              <FontIcon iconLiteral="mdi2b-bank-transfer-in" iconSize="24" />
+                          </graphic>
+                      </Button>
+                      <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#editUser" prefHeight="48.0" prefWidth="150.0" text="Kullanıcı Yönetimi">
+                          <graphic>
+                              <FontIcon iconLiteral="mdi2a-account" iconSize="24" />
+                          </graphic>
+                      </Button>
+                      <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#logout" prefHeight="48.0" prefWidth="150.0" text="Çıkış Yap">
+                          <graphic>
+                              <FontIcon iconLiteral="mdi2l-logout" iconSize="24" />
+                          </graphic>
+                      </Button>
+                  </children>
+              </VBox>
+            <Separator orientation="VERTICAL" prefHeight="200.0">
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+            </Separator>
+         </children>
+      </HBox>
     </left>
     <center>
       <VBox>
@@ -90,7 +100,7 @@
                <children>
                   <Label text="Öğrenci Bilgilerini Düzenleme">
                      <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="8.0" />
+                        <Insets bottom="5.0" right="5.0" top="8.0" />
                      </HBox.margin>
                      <font>
                         <Font name="System Bold" size="20.0" />

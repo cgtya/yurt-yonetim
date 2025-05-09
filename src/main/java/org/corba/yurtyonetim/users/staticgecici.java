@@ -12,7 +12,8 @@ public class staticgecici {
     public static String addStudentStatic(Student student) {
         String sqlInsert = "INSERT INTO ogrenci (name, surname, tcNo, telNo, eposta, currentDorm, disiplinNo, isOnLeave) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         String sqlYurtlar = "SELECT * FROM yurtlar LIMIT 1";
-        String sqlUpdateYurt = "UPDATE yurtlar SET ? = ? + 1";
+        String sqlUpdateYurt = "UPDATE yurtlar SET " + student.getCurrentDorm() + " = " + student.getCurrentDorm() + " + 1";
+
 
         Set<String> bosYurtlar = new HashSet<>();
         Connection conn = null;
@@ -60,9 +61,7 @@ public class staticgecici {
 
             // öğrencinin eklendiği yurdun mevcudiyeti bir artırılıyor
             try (PreparedStatement pstmt = conn.prepareStatement(sqlUpdateYurt)) {
-                pstmt.setString(1, student.getCurrentDorm());
-                pstmt.setString(2, student.getCurrentDorm());
-                pstmt.executeUpdate();
+                pstmt.executeUpdate(sqlUpdateYurt);
             }
 
             conn.commit();
