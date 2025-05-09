@@ -12,7 +12,7 @@ public class Student extends User {
     private int totalLeaveDays;
 
     Scanner scanner = new Scanner(System.in);
-    private final String url = "jdbc:mysql://localhost:3306/ogrenciler?useSSL=false&serverTimezone=UTC";
+    private final String url = "jdbc:mysql://localhost:3306/kullanicilar?useSSL=false&serverTimezone=UTC";
     private final String user = "root";
     private final String databasePassword = "Omer200526a";
 

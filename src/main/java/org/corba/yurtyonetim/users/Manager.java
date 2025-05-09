@@ -6,7 +6,7 @@ import java.util.*;
 public class Manager extends User {
 
     Scanner scanner = new Scanner(System.in);
-    private static final String url = "jdbc:mysql://localhost:3306/ogrenciler?useSSL=false&serverTimezone=UTC";
+    private static final String url = "jdbc:mysql://localhost:3306/kullanicilar?useSSL=false&serverTimezone=UTC";
     private static final String user = "root";
     private static final String databasePassword = "Omer200526a";
 
