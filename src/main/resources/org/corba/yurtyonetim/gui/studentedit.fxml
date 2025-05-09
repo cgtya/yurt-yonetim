@@ -91,12 +91,12 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="8.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField promptText="1**********">
+                  <TextField fx:id="tcBox" promptText="1**********">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
                   </TextField>
-                  <Button mnemonicParsing="false" text="Ara">
+                  <Button fx:id="searchButton" mnemonicParsing="false" onAction="#searchButtonClick" text="Ara">
                      <HBox.margin>
                         <Insets left="19.0" top="5.0" />
                      </HBox.margin>
@@ -105,7 +105,7 @@
             </HBox>
             <HBox>
                <children>
-                  <Label minWidth="400.0">
+                  <Label fx:id="statusLabel" minWidth="400.0">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="8.0" />
                      </HBox.margin>
