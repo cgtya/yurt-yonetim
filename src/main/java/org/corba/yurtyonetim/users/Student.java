@@ -69,7 +69,7 @@ public class Student extends User {
     this.usedLeaveDays = 0;
 }
 
-    public void makeBecayis() {
+    /*public void makeBecayis() {
         Scanner scanner = new Scanner(System.in);
         String tc1, tc2, name1 = null, name2 = null;
         String dorm1 = null, dorm2 = null;
@@ -180,10 +180,10 @@ public class Student extends User {
                 }
             }
         }
-    }
+    }*/
 
 
-    public void nakilYap() {
+    /*public void nakilYap() {
         Scanner scanner = new Scanner(System.in);
         String tc, mevcutYurt, name = null;
         Set<String> uygunYurtlar = new HashSet<>();
@@ -302,7 +302,7 @@ public class Student extends User {
                 }
             }
         }
-    }
+    }*/
 
    
 public boolean giveLeave() {
