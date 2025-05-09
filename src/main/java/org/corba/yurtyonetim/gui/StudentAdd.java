@@ -112,7 +112,7 @@ public class StudentAdd extends BaseMenu implements Initializable {
             if (alreadyExists) {
                 statusLabel.setText("Girdiğiniz e-postaya sahip bir öğrenci zaten vardır!");
                 statusLabel.setTextFill(Color.RED);
-                IDBox.clear();
+                mailBox.clear();
                 return;
             }
 
@@ -139,7 +139,7 @@ public class StudentAdd extends BaseMenu implements Initializable {
             if (alreadyExists) {
                 statusLabel.setText("Girdiğiniz telefon numarasına sahip bir öğrenci zaten vardır!");
                 statusLabel.setTextFill(Color.RED);
-                IDBox.clear();
+                phoneBox.clear();
                 return;
             }
         }

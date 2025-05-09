@@ -8,15 +8,6 @@ public class staticgecici {
     private static final String user = "root";
     private static final String databasePassword = "Omer200526a";
 
-    public static String tempOg_Name;
-    public static String tempOg_Surname;
-    public static String tempOg_tcNo;
-    public static String tempOg_telNo;
-    public static String tempOg_eposta;
-    public static String tempOg_currentDorm;
-    public static String tempOg_roomNo;
-    public static String tempOg_disiplinNo;
-    public static String tempOg_isOnLeave;
 
     public static void addStudentStatic(Student student) {
         String sqlInsert = "INSERT INTO ogrenci (name, surname, tcNo, telNo, eposta, currentDorm, disiplinNo, isOnLeave) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";

@@ -7,6 +7,8 @@ import javafx.scene.paint.Color;
 import org.corba.yurtyonetim.users.Student;
 import org.corba.yurtyonetim.users.staticgecici;
 
+import java.sql.SQLException;
+
 
 public class StudentEdit extends BaseMenu  {
 
@@ -155,6 +157,60 @@ public class StudentEdit extends BaseMenu  {
             statusLabel.setText("40 karakteri geçmeyiniz!");
             statusLabel.setTextFill(Color.RED);
             return;
+        }
+
+
+        //geçerli ve özgün mail kontrolü
+        if (!newMail.matches(emailRegex)) {
+            statusLabel.setText("Geçersiz e-posta!");
+            statusLabel.setTextFill(Color.RED);
+            mailBox.clear();
+            return;
+        } else {
+            boolean alreadyExists;
+
+            //veritabanı erişiminde sorun yaşanması durumu için kontrol
+            try {
+                alreadyExists = staticgecici.epostaKontrol(newMail);
+            } catch (SQLException e) {
+                statusLabel.setText("Veritabanı erişiminde sorun yaşandı: " + e.getMessage());
+                statusLabel.setTextFill(Color.RED);
+                return;
+            }
+
+            if (alreadyExists) {
+                statusLabel.setText("Girdiğiniz e-postaya sahip bir öğrenci zaten vardır!");
+                statusLabel.setTextFill(Color.RED);
+                mailBox.clear();
+                return;
+            }
+
+        }
+
+        //geçerli ve özgün telefon kontrolü
+        if (!newPhone.matches(telNoRegex)) {
+            statusLabel.setText("Geçersiz telefon numarası! 5 ile başlamalı ve 10 haneli olmalı.");
+            statusLabel.setTextFill(Color.RED);
+            phoneBox.clear();
+            return;
+        } else {
+            boolean alreadyExists;
+
+            //veritabanı erişiminde sorun yaşanması durumu için kontrol
+            try {
+                alreadyExists = staticgecici.telNoKontrol(newPhone);
+            } catch (SQLException e) {
+                statusLabel.setText("Veritabanı erişiminde sorun yaşandı: " + e.getMessage());
+                statusLabel.setTextFill(Color.RED);
+                return;
+            }
+
+            if (alreadyExists) {
+                statusLabel.setText("Girdiğiniz telefon numarasına sahip bir öğrenci zaten vardır!");
+                statusLabel.setTextFill(Color.RED);
+                phoneBox.clear();
+                return;
+            }
         }
 
         student.setName(newName);
