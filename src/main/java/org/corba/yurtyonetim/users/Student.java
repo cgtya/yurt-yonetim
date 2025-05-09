@@ -302,22 +302,6 @@ public class Student extends User {
         }
     }*/
 
-   
-public boolean giveLeave() {
-    int remainingDays = TOTAL_LEAVE_DAYS - usedLeaveDays;
-    
-    if (remainingDays <= 0) {
-        System.out.println("Uyarı: İzin talebiniz reddedildi!");
-        System.out.println("Sebep: İzin hakkınız kalmadı.");
-        System.out.println("Toplam izin hakkı: " + TOTAL_LEAVE_DAYS + " gün");
-        System.out.println("Kullanılan izin: " + usedLeaveDays + " gün");
-        return false;
-    }
-    
-    System.out.println("İzin talebiniz onaylandı!");
-    System.out.println("Kalan izin hakkınız: " + remainingDays + " gün");
-    return true;
-}
 public void enteringDicipline(Manager manager) {
     this.diciplineNo++;
     System.out.println("Öğrenci " + this.getName() + " için yeni disiplin cezası eklendi.");
@@ -329,19 +313,7 @@ public void enteringDicipline(Manager manager) {
         manager.deleteStudent(this);
     }
 }
-    public int isOnLeave() {
-        int remainingDays = TOTAL_LEAVE_DAYS - usedLeaveDays;
-        
-        if (remainingDays < 0) {
-            remainingDays = 0;
-        }
-        
-        System.out.println("Toplam izin hakkı: " + TOTAL_LEAVE_DAYS + " gün");
-        System.out.println("Kullanılan izin: " + usedLeaveDays + " gün");
-        System.out.println("Kalan izin hakkı: " + remainingDays + " gün");
-        
-        return remainingDays;
-    }
+
 
 //08.05.2025 gece 23.49 rollbackleri anca koyabildim factorio falan oynamayacağım yatış zamanı 2
 
