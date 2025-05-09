@@ -55,14 +55,14 @@ public class StudentAdd extends BaseMenu {
             IDBox.clear();
             return;
         } else {
-            /*
+
             if (Manager.tcKontrol(tcInput)) {
                 statusLabel.setText("Girdiğiniz kimlik numarasına sahip bir öğrenci zaten vardır!");
                 statusLabel.setTextFill(Color.RED);
                 IDBox.clear();
                 return;
             }
-            */
+
         }
         //geçerli mail kontrolü TODO aktif edilecek
         if (!mailInput.matches(emailRegex)) {
@@ -71,13 +71,13 @@ public class StudentAdd extends BaseMenu {
             mailBox.clear();
             return;
         } else {
-            /*
+
             if(Manager.epostakontrol(mailInput)){
                 statusLabel.setText("Aradığınız E-Posta adresine sahip bir öğrenci zaten vardır.");
                 mailBox.clear();
                 return;
             }
-            */
+
         }
 
         //geçerli telefon kontrolü TODO aktif edilecek
@@ -87,13 +87,13 @@ public class StudentAdd extends BaseMenu {
             phoneBox.clear();
             return;
         } else {
-            /*
+
             if(Manager.telnoKontrol(phoneInput)){
                 statusLabel.setText("Aradığınız telefon numarasına sahip bir öğrenci zaten vardır.");
                 phoneBox.clear();
                 return;
             }
-            */
+
         }
 
         //Manager.addStudent();
