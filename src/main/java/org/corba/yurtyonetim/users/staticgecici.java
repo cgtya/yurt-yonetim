@@ -362,4 +362,67 @@ public class staticgecici {
     }
 
 
+    public static Student getStudentByTc(String tcNo) {
+        String sql = "SELECT * FROM ogrenci WHERE tcNo = ?";
+        Connection conn = null;
+
+        try {
+            conn = DriverManager.getConnection(url, user, databasePassword);
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, tcNo);
+                ResultSet rs = pstmt.executeQuery();
+
+                if (rs.next()) {
+                    String name = rs.getString("name");
+                    String surname = rs.getString("surname");
+                    String telNo = rs.getString("telNo");
+                    String eposta = rs.getString("eposta");
+                    String currentDorm = rs.getString("currentDorm");
+                    int disiplinNo = rs.getInt("disiplinNo");
+                    boolean isOnLeave = rs.getBoolean("isOnLeave");
+
+                    return new Student(name, surname, tcNo, telNo, eposta, currentDorm, disiplinNo, isOnLeave);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Veritabanı hatası: " + e.getMessage());
+        } finally {
+            try {
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                System.out.println("Bağlantı kapatılamadı: " + e.getMessage());
+            }
+        }
+
+        return null; // Öğrenci bulunamazsa değer döndürmüyor
+    }
+
+    public static String updateStudentInDatabase(Student student) {
+        String sql = "UPDATE ogrenci SET name = ?, surname = ?, telNo = ?, eposta = ?, currentDorm = ?, disiplinNo = ?, isOnLeave = ? WHERE tcNo = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, user, databasePassword);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, student.getName());
+            pstmt.setString(2, student.getSurname());
+            pstmt.setString(3, student.getTelNo());
+            pstmt.setString(4, student.getEposta());
+            pstmt.setString(5, student.getCurrentDorm());
+            pstmt.setInt(6, student.getDiciplineNo());
+            pstmt.setBoolean(7, student.isOnleave());
+            pstmt.setString(8, student.getTcNo());
+
+            int updated = pstmt.executeUpdate();
+
+            if (updated > 0) {
+                return "Öğrenci verileri başarıyla güncellendi.";
+            } else {
+                return "Güncellenecek öğrenci bulunamadı (TC No: " + student.getTcNo() + ").";
+            }
+
+        } catch (SQLException e) {
+            return "Güncelleme hatası: " + e.getMessage();
+        }
+    }
+
 }

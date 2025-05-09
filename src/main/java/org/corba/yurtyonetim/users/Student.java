@@ -58,15 +58,13 @@ public class Student extends User {
 
 
 
-    public Student(String email, String name, String surname, String tcNo, String telNo,
-              String currentDorm, String roomNo, int diciplineNo, boolean isOnleave,
-              int totalLeaveDays) {
-    super(email, name, surname, tcNo, telNo);
+
+
+    public Student(String name, String surname, String tcNo, String telNo, String eposta, String currentDorm, int diciplineNo, boolean isOnleave) {
+    super(name, surname, tcNo, telNo, eposta);
     this.currentDorm = currentDorm;
     this.diciplineNo = diciplineNo;
     this.isOnleave = isOnleave;
-    this.totalLeaveDays = totalLeaveDays;
-    this.usedLeaveDays = 0;
 }
 
     /*public void makeBecayis() {

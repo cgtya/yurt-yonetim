@@ -23,8 +23,8 @@ public class Manager extends User {
 
     private String password;
 
-     public Manager(String email,String name,String password,String Surname,String tcNo,String telNo){
-         super(email, name, Surname, tcNo,telNo);
+     public Manager(String name,String Surname,String tcNo,String telNo,String eposta,String password){
+         super(name, Surname, tcNo, telNo, eposta);
          this.password=password;
      }
 
@@ -214,7 +214,7 @@ public void listStudents() {
     String maskedTelNo = "******" + getTelNo().substring(6);
     System.out.println("Telefon No: " + maskedTelNo);
     
-    System.out.println("E-posta: " + getEmail());
+    System.out.println("E-posta: " + getEposta());
     
     // Yetki düzeyini göster
     System.out.println("Yetki Düzeyi: Yönetici");
