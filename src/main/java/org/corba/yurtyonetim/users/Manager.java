@@ -23,8 +23,8 @@ public class Manager extends User {
 
     private String password;
 
-     public Manager(String email,String name,String password,String Surname,String tcNo,String telNo){
-         super(email, name, Surname, tcNo,telNo);
+     public Manager(String name,String Surname,String tcNo,String telNo,String eposta,String password){
+         super(name, Surname, tcNo, telNo, eposta);
          this.password=password;
      }
 
@@ -41,7 +41,7 @@ public class Manager extends User {
 
     }
 
-    public void addStudent(){
+    /*public void addStudent(){
         String sql = "INSERT INTO ogrenci (name, surname, tcNo, telNo, eposta, currentDorm, disiplinNo, isOnLeave) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         //TODO import tc kimlik , name, surname, tel no, mail
@@ -118,64 +118,15 @@ public class Manager extends User {
             System.out.println("Ekleme hatası: " + e.getMessage());
         }
 
-    }
+    }*/
 
-    public void searchStudent() {
-        System.out.println("Öğrenci arama kriterleri:");
-        System.out.println("1. T.C. Kimlik No ile ara");
-        System.out.println("2. Ad ile ara");
-        System.out.println("3. Soyad ile ara");
-        System.out.println("4. Telefon numarası ile ara");
-        System.out.println("5. E-posta ile ara");
-        System.out.println("6. Yurt adı ile ara");
-        System.out.print("Seçiminiz (1-6): ");
-        
-        String secim = scanner.nextLine();
-        String aramaKriteri = "";
-        String sql = "";
-        
-        switch (secim) {
-            case "1":
-                System.out.print("T.C. Kimlik No: ");
-                aramaKriteri = scanner.nextLine();
-                sql = "SELECT * FROM ogrenci WHERE tcNo = ?";
-                break;
-            case "2":
-                System.out.print("Ad: ");
-                aramaKriteri = scanner.nextLine();
-                sql = "SELECT * FROM ogrenci WHERE name LIKE ?";
-                aramaKriteri = "%" + aramaKriteri + "%";
-                break;
-            case "3":
-                System.out.print("Soyad: ");
-                aramaKriteri = scanner.nextLine();
-                sql = "SELECT * FROM ogrenci WHERE surname LIKE ?";
-                aramaKriteri = "%" + aramaKriteri + "%";
-                break;
-            case "4":
-                System.out.print("Telefon numarası: ");
-                aramaKriteri = scanner.nextLine();
-                sql = "SELECT * FROM ogrenci WHERE telNo = ?";
-                break;
-            case "5":
-                System.out.print("E-posta: ");
-                aramaKriteri = scanner.nextLine();
-                sql = "SELECT * FROM ogrenci WHERE eposta = ?";
-                break;
-            case "6":
-                System.out.print("Yurt adı: ");
-                aramaKriteri = scanner.nextLine();
-                sql = "SELECT * FROM ogrenci WHERE currentDorm = ?";
-                break;
-            default:
-                System.out.println("Geçersiz seçim!");
-                return;
-        }
+    /*public void searchStudent(String tcNo) {
+        String sql = "SELECT * FROM ogrenci WHERE tcNo = ?";
 
         try (Connection conn = DriverManager.getConnection(url, user, databasePassword);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
-            pstmt.setString(1, aramaKriteri);
+            pstmt.setString(1, tcNo);
             ResultSet rs = pstmt.executeQuery();
             
             boolean sonucBulundu = false;
@@ -201,7 +152,8 @@ public class Manager extends User {
         } catch (SQLException e) {
             System.out.println("Arama hatası: " + e.getMessage());
         }
-    }
+    }*/
+
 public void listStudents() {
     String sql = "SELECT * FROM ogrenci ORDER BY surname, name";
 
@@ -262,7 +214,7 @@ public void listStudents() {
     String maskedTelNo = "******" + getTelNo().substring(6);
     System.out.println("Telefon No: " + maskedTelNo);
     
-    System.out.println("E-posta: " + getEmail());
+    System.out.println("E-posta: " + getEposta());
     
     // Yetki düzeyini göster
     System.out.println("Yetki Düzeyi: Yönetici");

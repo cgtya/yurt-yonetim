@@ -3,12 +3,12 @@ package org.corba.yurtyonetim.users;
 public abstract class User {
 	private String name;
 	private String surname;
-	private String email;
+	private String eposta;
 	private String telNo;
 	private String tcNo;
 
-	public User(String email,String name,String surname,String tcNo,String telNo) {
-		this.email = email;
+	public User(String name,String surname,String tcNo,String telNo, String eposta) {
+		this.eposta = eposta;
 		this.name = name;
 		this.surname = surname;
 		this.tcNo = tcNo;
@@ -32,11 +32,11 @@ public abstract class User {
 		this.surname = surname;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getEposta() {
+		return eposta;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setEmail(String eposta) {
+		this.eposta = eposta;
 	}
 
 	public String getTelNo() {

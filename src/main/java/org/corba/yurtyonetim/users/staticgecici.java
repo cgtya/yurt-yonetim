@@ -30,7 +30,7 @@ public class staticgecici {
             conn = DriverManager.getConnection(url, user, databasePassword);
             conn.setAutoCommit(false); // işlem bütünlüğü başlat
 
-            // 1. Boş yurtları kontrol et
+            // burada boş yurtlar kontrol ediliyor
             try (Statement stmt = conn.createStatement();
                  ResultSet rs = stmt.executeQuery(sqlYurtlar)) {
 
@@ -55,7 +55,7 @@ public class staticgecici {
                 return;
             }
 
-            // 2. Öğrenci ekle
+            // methoda gönderilen verilere göre burada öğrenci oluşturuluyor
             try (PreparedStatement pstmt = conn.prepareStatement(sqlInsert)) {
                 pstmt.setString(1, tempOg_Name);
                 pstmt.setString(2, tempOg_Surname);
@@ -68,7 +68,7 @@ public class staticgecici {
                 pstmt.executeUpdate();
             }
 
-            // 3. Yurt doluluğunu artır
+            // öğrencinin eklendiği yurdun mevcudiyeti bir artırılıyor
             try (Statement stmt = conn.createStatement()) {
                 stmt.executeUpdate(sqlUpdateYurt);
             }
@@ -329,5 +329,100 @@ public class staticgecici {
         return bosYurtlar;
     }
 
+
+
+    public static String searchStudent(String tcNo) {
+        String sql = "SELECT * FROM ogrenci WHERE tcNo = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, user, databasePassword);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, tcNo);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                StringBuilder sb = new StringBuilder();
+                sb.append("Öğrenci Bilgileri:\n");
+                sb.append("Ad: ").append(rs.getString("name")).append("\n");
+                sb.append("Soyad: ").append(rs.getString("surname")).append("\n");
+                sb.append("T.C. Kimlik No: ").append(rs.getString("tcNo")).append("\n");
+                sb.append("Telefon No: ").append(rs.getString("telNo")).append("\n");
+                sb.append("E-posta: ").append(rs.getString("eposta")).append("\n");
+                sb.append("Yurt: ").append(rs.getString("currentDorm")).append("\n");
+                sb.append("Disiplin Puanı: ").append(rs.getInt("disiplinNo")).append("\n");
+                sb.append("İzinli mi: ").append(rs.getBoolean("isOnLeave") ? "Evet" : "Hayır").append("\n");
+                return sb.toString();
+            } else {
+                return "Girdiğiniz kimlik numarasına sahip bir öğrenci bulunamadı.";
+            }
+
+        } catch (SQLException e) {
+            return "Arama hatası: " + e.getMessage();
+        }
+    }
+
+
+    public static Student getStudentByTc(String tcNo) {
+        String sql = "SELECT * FROM ogrenci WHERE tcNo = ?";
+        Connection conn = null;
+
+        try {
+            conn = DriverManager.getConnection(url, user, databasePassword);
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, tcNo);
+                ResultSet rs = pstmt.executeQuery();
+
+                if (rs.next()) {
+                    String name = rs.getString("name");
+                    String surname = rs.getString("surname");
+                    String telNo = rs.getString("telNo");
+                    String eposta = rs.getString("eposta");
+                    String currentDorm = rs.getString("currentDorm");
+                    int disiplinNo = rs.getInt("disiplinNo");
+                    boolean isOnLeave = rs.getBoolean("isOnLeave");
+
+                    return new Student(name, surname, tcNo, telNo, eposta, currentDorm, disiplinNo, isOnLeave);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Veritabanı hatası: " + e.getMessage());
+        } finally {
+            try {
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                System.out.println("Bağlantı kapatılamadı: " + e.getMessage());
+            }
+        }
+
+        return null; // Öğrenci bulunamazsa değer döndürmüyor
+    }
+
+    public static String updateStudentInDatabase(Student student) {
+        String sql = "UPDATE ogrenci SET name = ?, surname = ?, telNo = ?, eposta = ?, currentDorm = ?, disiplinNo = ?, isOnLeave = ? WHERE tcNo = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, user, databasePassword);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, student.getName());
+            pstmt.setString(2, student.getSurname());
+            pstmt.setString(3, student.getTelNo());
+            pstmt.setString(4, student.getEposta());
+            pstmt.setString(5, student.getCurrentDorm());
+            pstmt.setInt(6, student.getDiciplineNo());
+            pstmt.setBoolean(7, student.isOnleave());
+            pstmt.setString(8, student.getTcNo());
+
+            int updated = pstmt.executeUpdate();
+
+            if (updated > 0) {
+                return "Öğrenci verileri başarıyla güncellendi.";
+            } else {
+                return "Güncellenecek öğrenci bulunamadı (TC No: " + student.getTcNo() + ").";
+            }
+
+        } catch (SQLException e) {
+            return "Güncelleme hatası: " + e.getMessage();
+        }
+    }
 
 }
