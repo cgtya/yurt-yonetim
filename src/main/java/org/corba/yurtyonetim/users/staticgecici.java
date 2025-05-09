@@ -425,4 +425,40 @@ public class staticgecici {
         }
     }
 
+    public static String toggleLeaveStatus(String tcNo) {
+        String sqlSelect = "SELECT isOnLeave FROM ogrenci WHERE tcNo = ?";
+        String sqlUpdate = "UPDATE ogrenci SET isOnLeave = ? WHERE tcNo = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, user, databasePassword)) {
+
+            boolean mevcutDurum;
+
+            // Öğrencinin mevcut izinli olup olmadığını sorguluyoruz
+            try (PreparedStatement pstmt = conn.prepareStatement(sqlSelect)) {
+                pstmt.setString(1, tcNo);
+                ResultSet rs = pstmt.executeQuery();
+
+                if (!rs.next()) {
+                    return "Bu kimlik numarasına ait öğrenci bulunamadı.";
+                }
+
+                mevcutDurum = rs.getBoolean("isOnLeave");
+            }
+
+            // Durumu tersine çevirip güncelliyoruz
+            boolean yeniDurum = !mevcutDurum;
+
+            try (PreparedStatement pstmt = conn.prepareStatement(sqlUpdate)) {
+                pstmt.setBoolean(1, yeniDurum);
+                pstmt.setString(2, tcNo);
+                pstmt.executeUpdate();
+            }
+
+            return "Öğrencinin izin durumu güncellendi. Yeni durum: " + (yeniDurum ? "İzinli" : "İzinli Değil");
+
+        } catch (SQLException e) {
+            return "Güncelleme sırasında hata oluştu: " + e.getMessage();
+        }
+    }
+
 }
