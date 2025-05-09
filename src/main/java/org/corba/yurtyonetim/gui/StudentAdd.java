@@ -151,9 +151,9 @@ public class StudentAdd extends BaseMenu implements Initializable {
 
         //student nesnesi veritabanına yüklenir
 
-        staticgecici.addStudentStatic(student);
+        String message = staticgecici.addStudentStatic(student);
 
-        statusLabel.setText("eklendi!!!");
+        statusLabel.setText(message);
         statusLabel.setTextFill(Color.GREEN);
 
 

@@ -9,10 +9,10 @@ public class staticgecici {
     private static final String databasePassword = "Omer200526a";
 
 
-    public static void addStudentStatic(Student student) {
+    public static String addStudentStatic(Student student) {
         String sqlInsert = "INSERT INTO ogrenci (name, surname, tcNo, telNo, eposta, currentDorm, disiplinNo, isOnLeave) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         String sqlYurtlar = "SELECT * FROM yurtlar LIMIT 1";
-        String sqlUpdateYurt = "UPDATE yurtlar SET " + student.getCurrentDorm() + " = " + student.getCurrentDorm() + " + 1";
+        String sqlUpdateYurt = "UPDATE yurtlar SET ? = ? + 1";
 
         Set<String> bosYurtlar = new HashSet<>();
         Connection conn = null;
@@ -41,9 +41,8 @@ public class staticgecici {
             }
 
             if (!bosYurtlar.contains(student.getCurrentDorm())) {
-                System.out.println("Seçilen yurtta boş yer yok. İşlem iptal edildi.");
                 conn.rollback();
-                return;
+                return "Seçilen yurtta boş yer yok. İşlem iptal edildi.";
             }
 
             // methoda gönderilen verilere göre burada öğrenci oluşturuluyor
@@ -60,12 +59,13 @@ public class staticgecici {
             }
 
             // öğrencinin eklendiği yurdun mevcudiyeti bir artırılıyor
-            try (Statement stmt = conn.createStatement()) {
-                stmt.executeUpdate(sqlUpdateYurt);
+            try (PreparedStatement pstmt = conn.prepareStatement(sqlUpdateYurt)) {
+                pstmt.setString(1, student.getCurrentDorm());
+                pstmt.setString(2, student.getCurrentDorm());
+                pstmt.executeUpdate();
             }
 
             conn.commit();
-            System.out.println("Öğrenci eklendi: " + student.getName() + " " + student.getSurname());
 
         } catch (SQLException e) {
             System.out.println("Ekleme sırasında hata: " + e.getMessage());
@@ -81,6 +81,7 @@ public class staticgecici {
                 System.out.println("Bağlantı kapatılamadı: " + e.getMessage());
             }
         }
+        return ("Öğrenci eklendi: " + student.getName() + " " + student.getSurname());
     }
 
     public static String makeBecayisStatic(String tc1, String tc2) {
