@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.*;
 
 public class staticgecici {
-    private static final String url = "jdbc:mysql://localhost:3306/kullanicilar?useSSL=false&serverTimezone=UTC";
+    private static final String url = "jdbc:mysql://localhost:3306/kullanicilar?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
     private static final String user = "root";
     private static final String databasePassword = "Omer200526a";
 
