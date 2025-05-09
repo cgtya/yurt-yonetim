@@ -18,10 +18,10 @@ public class staticgecici {
     public static String tempOg_disiplinNo;
     public static String tempOg_isOnLeave;
 
-    public static void addStudentStatic(String tempOg_Name, String tempOg_Surname, String tempOg_tcNo, String tempOg_telNo, String tempOg_eposta, String tempOg_currentDorm) {
+    public static void addStudentStatic(Student student) {
         String sqlInsert = "INSERT INTO ogrenci (name, surname, tcNo, telNo, eposta, currentDorm, disiplinNo, isOnLeave) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         String sqlYurtlar = "SELECT * FROM yurtlar LIMIT 1";
-        String sqlUpdateYurt = "UPDATE yurtlar SET " + tempOg_currentDorm + " = " + tempOg_currentDorm + " + 1";
+        String sqlUpdateYurt = "UPDATE yurtlar SET " + student.getCurrentDorm() + " = " + student.getCurrentDorm() + " + 1";
 
         Set<String> bosYurtlar = new HashSet<>();
         Connection conn = null;
@@ -49,7 +49,7 @@ public class staticgecici {
                 }
             }
 
-            if (!bosYurtlar.contains(tempOg_currentDorm)) {
+            if (!bosYurtlar.contains(student.getCurrentDorm())) {
                 System.out.println("Seçilen yurtta boş yer yok. İşlem iptal edildi.");
                 conn.rollback();
                 return;
@@ -57,12 +57,12 @@ public class staticgecici {
 
             // methoda gönderilen verilere göre burada öğrenci oluşturuluyor
             try (PreparedStatement pstmt = conn.prepareStatement(sqlInsert)) {
-                pstmt.setString(1, tempOg_Name);
-                pstmt.setString(2, tempOg_Surname);
-                pstmt.setString(3, tempOg_tcNo);
-                pstmt.setString(4, tempOg_telNo);
-                pstmt.setString(5, tempOg_eposta);
-                pstmt.setString(6, tempOg_currentDorm);
+                pstmt.setString(1, student.getName());
+                pstmt.setString(2, student.getSurname());
+                pstmt.setString(3, student.getTcNo());
+                pstmt.setString(4, student.getTelNo());
+                pstmt.setString(5, student.getEposta());
+                pstmt.setString(6, student.getCurrentDorm());
                 pstmt.setInt(7, 0); //öğrenci yeni eklendiği iin disiplin suçu sayısı 0
                 pstmt.setBoolean(8, false); //ve yine yeni eklendiği için izinliolma durumu
                 pstmt.executeUpdate();
@@ -74,7 +74,7 @@ public class staticgecici {
             }
 
             conn.commit();
-            System.out.println("Öğrenci eklendi: " + tempOg_Name + " " + tempOg_Surname);
+            System.out.println("Öğrenci eklendi: " + student.getName() + " " + student.getSurname());
 
         } catch (SQLException e) {
             System.out.println("Ekleme sırasında hata: " + e.getMessage());
