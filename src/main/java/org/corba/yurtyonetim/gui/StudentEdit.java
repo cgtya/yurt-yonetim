@@ -17,6 +17,29 @@ public class StudentEdit extends BaseMenu  {
     @FXML
     private Label statusLabel;
 
+    @FXML
+    private TextField nameBox;
+    @FXML
+    private TextField surnameBox;
+    @FXML
+    private TextField mailBox;
+    @FXML
+    private TextField phoneBox;
+    @FXML
+    private TextField dormBox;
+
+    @FXML
+    private Label penaltyLabel;
+    @FXML
+    private CheckBox onLeaveCheck;
+    @FXML
+    private Button penaltyButton;
+    @FXML
+    private Button applyButton;
+    @FXML
+    private Button deleteButton;
+
+
 
 
 
@@ -34,26 +57,47 @@ public class StudentEdit extends BaseMenu  {
             return;
         }
 
-        tcBox.setEditable(false);
+        //değişiklikler kaydedilene kadar tc kutucuğu değiştirilemez
+        tcBox.setDisable(true);
         searchButton.setDisable(true);
 
         Student student;
 
-        //database erişiminde sorun yaşanması durumu için kontrol
+        //database erişiminde sorun yaşanması/öğrenci bulunamaması durumu için kontrol
         try {
             student = staticgecici.getStudentByTc(tcNo);
-            assert student != null;
-
+            if (student == null) {
+                statusLabel.setText("Böyle bir öğrenci bulunamadı.");
+                statusLabel.setTextFill(Color.RED);
+                tcBox.setDisable(false);
+                searchButton.setDisable(false);
+                return;
+            }
         } catch (Exception e) {
-            statusLabel.setText("Bir hatayla karşılaşıldı:" + e.getMessage());
+            statusLabel.setText("Öğrenci bilgileri alınırken hata oluştu: " + e.getMessage());
             statusLabel.setTextFill(Color.RED);
-            tcBox.setEditable(true);
+            tcBox.setDisable(false);
             searchButton.setDisable(false);
             return;
         }
 
-        statusLabel.setText(student.getName());
+        //öğrenci bulunması durumunda kutucuklar aktifleştirilir
+        nameBox.setDisable(false);
+        surnameBox.setDisable(false);
+        mailBox.setDisable(false);
+        phoneBox.setDisable(false);
+        penaltyButton.setDisable(false);
+        applyButton.setDisable(false);
+        deleteButton.setDisable(false);
 
+        //kutucuklar doldurulur
+        nameBox.setText(student.getName());
+        surnameBox.setText(student.getSurname());
+        phoneBox.setText(student.getTelNo());
+        mailBox.setText(student.getEposta());
+        penaltyLabel.setText(String.valueOf(student.getDiciplineNo()));
+        onLeaveCheck.setSelected(student.isOnleave());
+        dormBox.setText(student.getCurrentDorm());
 
     }
 
