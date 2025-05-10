@@ -8,7 +8,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import javafx.scene.paint.Color;
-import org.corba.yurtyonetim.users.Manager;
 import org.corba.yurtyonetim.users.Student;
 import org.corba.yurtyonetim.users.staticgecici;
 
@@ -32,10 +31,12 @@ public class StudentAdd extends BaseMenu implements Initializable {
 
     Student student;
 
+    //ChoiceBox un içine elemanları getiren metot
     @Override
     public void initialize(java.net.URL url, java.util.ResourceBundle rb) {
         dormBox.getItems().addAll(staticgecici.getBosYurtlar());
     }
+
 
     public void buttonClickAddStudent(ActionEvent event) {
         String tcNoRegex = "^[1-9][0-9]{10}$"; // 11 haneli ve 0 ile başlamayan
