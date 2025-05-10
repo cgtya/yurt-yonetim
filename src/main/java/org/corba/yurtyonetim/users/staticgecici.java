@@ -523,7 +523,7 @@ public class staticgecici {
                     pstmt.executeUpdate();
                 }
                 conn.commit();
-                return "⚠Öğrencinin disiplin cezası 1 artırıldı. Toplam ceza sayısı: " + yeniDisiplin;
+                return "Öğrencinin disiplin cezası 1 artırıldı. Toplam ceza sayısı: " + yeniDisiplin;
             } else {
                 // cezayı aldıysa → öğrenciyi sil + yurt sayısını azalt
                 try (PreparedStatement pstmt = conn.prepareStatement(sqlDeleteStudent)) {
@@ -607,5 +607,119 @@ public class staticgecici {
             throw e;
         }
     }
+
+    public static String deleteStudentAndUpdateDorm(String tcNo) {
+        String sqlSelectDorm = "SELECT currentDorm FROM ogrenci WHERE tcNo = ?";
+        String sqlDeleteStudent = "DELETE FROM ogrenci WHERE tcNo = ?";
+        String sqlUpdateDorm = "UPDATE yurtlar SET %s = %s - 1";
+
+        Connection conn = null;
+
+        try {
+            conn = DriverManager.getConnection(url, user, databasePassword);
+            conn.setAutoCommit(false); // işlem bütünlüğü
+
+            String currentDorm = null;
+
+            // Öğrencinin yurt bilgilerini alıyoruz
+            try (PreparedStatement pstmt = conn.prepareStatement(sqlSelectDorm)) {
+                pstmt.setString(1, tcNo);
+                ResultSet rs = pstmt.executeQuery();
+                if (rs.next()) {
+                    currentDorm = rs.getString("currentDorm");
+                } else {
+                    return "Bu TC numarasına ait öğrenci bulunamadı.";
+                }
+            }
+
+            // eğer öğrenci bulunursa ve bilgiler alınabilmişse öğrenciyi veritabanı tablosundan siliyoruz
+            try (PreparedStatement pstmt = conn.prepareStatement(sqlDeleteStudent)) {
+                pstmt.setString(1, tcNo);
+                pstmt.executeUpdate();
+            }
+
+            // öğrenci silindiği için kaldığı yurdun değerini tabloda bir azaltıyoruz
+            String finalUpdate = String.format(sqlUpdateDorm, currentDorm, currentDorm);
+            try (Statement stmt = conn.createStatement()) {
+                stmt.executeUpdate(finalUpdate);
+            }
+
+            conn.commit();
+            return "Öğrenci silindi ve " + currentDorm + " yurdunun doluluğu 1 azaltıldı.";
+
+        } catch (SQLException e) {
+            try {
+                if (conn != null) conn.rollback();
+            } catch (SQLException ex) {
+                return "Rollback başarısız: " + ex.getMessage();
+            }
+            return "Silme işlemi sırasında hata: " + e.getMessage();
+
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    return "Bağlantı kapatılamadı: " + ex.getMessage();
+                }
+            }
+        }
+    }
+
+    public static Manager getManagerByTc(String tcNo) {
+        String sql = "SELECT name, surname, telNo, eposta, password FROM yonetici WHERE tcNo = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, user, databasePassword);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, tcNo);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                String name = rs.getString("name");
+                String surname = rs.getString("surname");
+                String telNo = rs.getString("telNo");
+                String eposta = rs.getString("eposta");
+                String password = rs.getString("password");
+
+                return new Manager(name, surname, tcNo, telNo, eposta, password);
+            } else {
+                System.out.println("Bu TC numarasına ait yönetici bulunamadı.");
+                return null;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Veritabanı hatası: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public static String updateManagerInDatabase(Manager manager) {
+        String sql = "UPDATE yonetici SET name = ?, surname = ?, telNo = ?, eposta = ?, password = ? WHERE tcNo = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, user, databasePassword);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, manager.getName());
+            pstmt.setString(2, manager.getSurname());
+            pstmt.setString(3, manager.getTelNo());
+            pstmt.setString(4, manager.getEposta());
+            pstmt.setString(5, manager.getPassword());
+            pstmt.setString(6, manager.getTcNo());
+
+            int affectedRows = pstmt.executeUpdate();
+
+            if (affectedRows > 0) {
+                return "Yönetici bilgileri başarıyla güncellendi. (TC: " + manager.getTcNo() + ")";
+            } else {
+                return "Bu TC numarasına sahip bir yönetici bulunamadı.";
+            }
+
+        } catch (SQLException e) {
+            return "Güncelleme sırasında hata oluştu: " + e.getMessage();
+        }
+    }
+
+
 
 }
