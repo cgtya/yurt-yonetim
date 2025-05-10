@@ -154,75 +154,51 @@ public class Manager extends User {
         }
     }*/
 
-public void listStudents() {
-    String sql = "SELECT * FROM ogrenci ORDER BY surname, name";
+    public void listStudents() {
+        String sql = "SELECT * FROM ogrenci ORDER BY surname, name";
 
-    try (Connection conn = DriverManager.getConnection(url, user, databasePassword);
-         Statement stmt = conn.createStatement();
-         ResultSet rs = stmt.executeQuery(sql)) {
+        try (Connection conn = DriverManager.getConnection(url, user, databasePassword);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
 
-        boolean ogrenciVar = false;
-        int ogrenciSayisi = 0;
+            boolean ogrenciVar = false;
+            int ogrenciSayisi = 0;
 
-        System.out.println("\n=== TÜM ÖĞRENCİ LİSTESİ ===\n");
-        System.out.println(String.format("%-20s %-20s %-15s %-15s %-30s %-15s %-15s %-10s",
-                "Ad", "Soyad", "TC No", "Telefon", "E-posta", "Yurt", "Disiplin P.", "İzin"));
-        System.out.println("-".repeat(130));
+            System.out.println("\n=== TÜM ÖĞRENCİ LİSTESİ ===\n");
+            System.out.println(String.format("%-20s %-20s %-15s %-15s %-30s %-15s %-15s %-10s",
+                    "Ad", "Soyad", "TC No", "Telefon", "E-posta", "Yurt", "Disiplin P.", "İzin"));
+            System.out.println("-".repeat(130));
 
-        while (rs.next()) {
-            ogrenciVar = true;
-            ogrenciSayisi++;
+            while (rs.next()) {
+                ogrenciVar = true;
+                ogrenciSayisi++;
 
-            // TC ve telefon numarasının son 4 hanesini göster, diğerlerini * ile maskele
-            String maskeliTC = rs.getString("tcNo").substring(0, 7) + "****";
-            String maskeliTel = "******" + rs.getString("telNo").substring(6);
+                // TC ve telefon numarasının son 4 hanesini göster, diğerlerini * ile maskele
+                String maskeliTC = rs.getString("tcNo").substring(0, 7) + "****";
+                String maskeliTel = "******" + rs.getString("telNo").substring(6);
 
-            System.out.println(String.format("%-20s %-20s %-15s %-15s %-30s %-15s %-15d %-10s",
-                    rs.getString("name"),
-                    rs.getString("surname"),
-                    maskeliTC,
-                    maskeliTel,
-                    rs.getString("eposta"),
-                    rs.getString("currentDorm"),
-                    rs.getInt("disiplinNo"),
-                    rs.getBoolean("isOnLeave") ? "Evet" : "Hayır"
-            ));
-        }
+                System.out.println(String.format("%-20s %-20s %-15s %-15s %-30s %-15s %-15d %-10s",
+                        rs.getString("name"),
+                        rs.getString("surname"),
+                        maskeliTC,
+                        maskeliTel,
+                        rs.getString("eposta"),
+                        rs.getString("currentDorm"),
+                        rs.getInt("disiplinNo"),
+                        rs.getBoolean("isOnLeave") ? "Evet" : "Hayır"
+                ));
+            }
 
-        System.out.println("-".repeat(130));
+            System.out.println("-".repeat(130));
         
-        if (!ogrenciVar) {
-            System.out.println("Sistemde kayıtlı öğrenci bulunmamaktadır.");
-        } else {
-            System.out.println("\nToplam Öğrenci Sayısı: " + ogrenciSayisi);
-        }
+            if (!ogrenciVar) {
+                System.out.println("Sistemde kayıtlı öğrenci bulunmamaktadır.");
+            } else {
+                System.out.println("\nToplam Öğrenci Sayısı: " + ogrenciSayisi);
+            }
 
-    } catch (SQLException e) {
-        System.out.println("Listeleme hatası: " + e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("Listeleme hatası: " + e.getMessage());
+        }
     }
 }
-    public void showUserInfo() {
-    System.out.println("\n=== YÖNETİCİ BİLGİLERİ ===\n");
-    System.out.println("Ad: " + getName());
-    System.out.println("Soyad: " + getSurname());
-    
-    // TC Kimlik numarasını maskele (ilk 7 hane görünür, son 4 hane gizli)
-    String maskedTcNo = getTcNo().substring(0, 7) + "****";
-    System.out.println("T.C. Kimlik No: " + maskedTcNo);
-    
-    // Telefon numarasını maskele (son 4 hane görünür)
-    String maskedTelNo = "******" + getTelNo().substring(6);
-    System.out.println("Telefon No: " + maskedTelNo);
-    
-    System.out.println("E-posta: " + getEposta());
-    
-    // Yetki düzeyini göster
-    System.out.println("Yetki Düzeyi: Yönetici");
-    
-    System.out.println("\nSistem Yetkileri:");
-    System.out.println("- Öğrenci ekleme");
-    System.out.println("- Öğrenci silme");
-    System.out.println("- Öğrenci arama");
-    System.out.println("- Öğrenci listeleme");
-    System.out.println("- Yurt doluluk kontrolü");
-}}

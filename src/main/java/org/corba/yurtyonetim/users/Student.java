@@ -302,20 +302,6 @@ public class Student extends User {
         }
     }*/
 
-public void enteringDicipline(Manager manager) {
-    this.diciplineNo++;
-    System.out.println("Öğrenci " + this.getName() + " için yeni disiplin cezası eklendi.");
-    System.out.println("Toplam disiplin cezası sayısı: " + this.diciplineNo);
-    
-    if (this.diciplineNo >= 3) {
-        System.out.println("Öğrenci " + this.getName() + " 3 disiplin cezasını doldurdu!");
-        System.out.println("Yurttan çıkarılma işlemi başlatılıyor...");
-        manager.deleteStudent(this);
-    }
-}
-
-
-//08.05.2025 gece 23.49 rollbackleri anca koyabildim factorio falan oynamayacağım yatış zamanı 2
 
 
 
