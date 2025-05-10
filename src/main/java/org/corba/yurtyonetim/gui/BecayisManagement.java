@@ -1,5 +1,118 @@
 package org.corba.yurtyonetim.gui;
 
-public class BecayisManagement extends BaseMenu{
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
+import org.corba.yurtyonetim.users.Student;
+import org.corba.yurtyonetim.users.staticgecici;
 
+
+
+
+public class BecayisManagement extends BaseMenu{
+    @FXML
+    private TextField tcBox1;
+    @FXML
+    private TextField tcBox2;
+    @FXML
+    private TextField dormBox1;
+    @FXML
+    private TextField dormBox2;
+
+    @FXML
+    private Button applyButton;
+    @FXML
+    private Button updateButton;
+
+    @FXML
+    private Label statusLabel;
+
+    Student st1;
+    Student st2;
+
+
+    public void updateButtonClick(ActionEvent event) {
+
+        statusLabel.setText("");
+        statusLabel.setTextFill(Color.BLACK);
+
+        String tcNoRegex = "^[1-9][0-9]{10}$"; // 11 haneli ve 0 ile başlamayan
+
+        String tcNo1 = tcBox1.getText();
+        String tcNo2 = tcBox2.getText();
+
+        //tc numarası kontrolü
+        if (!(tcNo1.matches(tcNoRegex) && tcNo2.matches(tcNoRegex))) {
+            statusLabel.setText("Geçersiz kimlik numarası!");
+            statusLabel.setTextFill(javafx.scene.paint.Color.RED);
+            return;
+        }
+
+        //öğrenciler veritabanından çekilir
+        st1 = staticgecici.getStudentByTc(tcNo1);
+        st2 = staticgecici.getStudentByTc(tcNo2);
+
+        //geçerli öğrenci kontrolü
+        if (st1 == null) {
+            statusLabel.setText("İlk kutucuktaki kimlik numarasına sahip öğrenci bulunamadı!");
+            statusLabel.setTextFill(javafx.scene.paint.Color.RED);
+            return;
+        }
+
+        if (st2 == null) {
+            statusLabel.setText("İkinci kutucuktaki kimlik numarasına sahip öğrenci bulunamadı!");
+            statusLabel.setTextFill(javafx.scene.paint.Color.RED);
+            return;
+        }
+
+        String dorm1 = st1.getCurrentDorm();
+        String dorm2 = st2.getCurrentDorm();
+
+        //öğrenciler aynı yurtta mı kontrolü
+        if (dorm1.equals(dorm2)) {
+            statusLabel.setText("Öğrenciler zaten aynı yurtta bulunmaktadır. Yurt: " + dorm1);
+            statusLabel.setTextFill(javafx.scene.paint.Color.RED);
+            return;
+        }
+
+        //kutucuklar guncellenir
+        dormBox1.setText(dorm1);
+        dormBox2.setText(dorm2);
+
+        tcBox1.setDisable(true);
+        tcBox2.setDisable(true);
+
+        updateButton.setDisable(true);
+        applyButton.setDisable(false);
+
+    }
+
+    public void applyButtonClick(ActionEvent event) {
+        statusLabel.setText("");
+        statusLabel.setTextFill(Color.BLACK);
+
+        String tcNo1 = tcBox1.getText();
+        String tcNo2 = tcBox2.getText();
+
+        String message = staticgecici.makeBecayisStatic(tcNo1,tcNo2);
+
+        resetPage();
+
+        statusLabel.setText(message);
+        statusLabel.setTextFill(Color.BLACK);
+    }
+
+    public void resetPage() {
+        dormBox1.clear();
+        dormBox2.clear();
+        tcBox1.setDisable(false);
+        tcBox2.setDisable(false);
+
+        updateButton.setDisable(false);
+        applyButton.setDisable(true);
+        statusLabel.setText("");
+    }
 }

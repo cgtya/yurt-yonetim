@@ -158,6 +158,9 @@ public class StudentAdd extends BaseMenu implements Initializable {
         statusLabel.setTextFill(Color.GREEN);
 
 
+        //eğer yerleştirilen öğrenci yurttaki son kontenjanı dolduruyorsa yurdun müsait yurtlardan çıkarılması için
+        initialize(null,null);
+
     }
 
 
