@@ -225,33 +225,4 @@ public void listStudents() {
     System.out.println("- Öğrenci arama");
     System.out.println("- Öğrenci listeleme");
     System.out.println("- Yurt doluluk kontrolü");
-}
-
-
-
-
-
-
-
-    public boolean yurtDoluMu(String yurtAdi) {
-        String sql = "SELECT " + yurtAdi + " FROM yurtlar";
-
-        try (Connection conn = DriverManager.getConnection(url, user, password);
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-
-            if (rs.next()) {
-                int doluluk = rs.getInt(1); // yurt sütunundaki değer
-                return doluluk >= 200;      // 50 oda * 4 kişi = 200 ediyor. Her yurtta maksimum 200 kişi var.
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Yurt kontrol hatası: " + e.getMessage());
-        }
-
-        return true; // hata durumunda "dolu" kabul edilir
-    }
-
-
-
-}//amınEvladıAi farkı ile showInfo listStudents ve searchStudent methodu yazıldı
+}}
