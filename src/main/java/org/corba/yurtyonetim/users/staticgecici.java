@@ -4,9 +4,71 @@ import java.sql.*;
 import java.util.*;
 
 public class staticgecici {
-    private static final String url = "jdbc:mysql://localhost:3306/kullanicilar?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
-    private static final String user = "root";
-    private static final String databasePassword = "Omer200526a";
+    private static String url = "jdbc:mysql://localhost:3306/kullanicilar?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
+    private static String user = "root";
+    private static String databasePassword = "Omer200526a";
+
+    private static final String urlDefault = "jdbc:mysql://localhost:3306/kullanicilar?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
+    private static final String userDefault = "root";
+    private static final String databasePasswordDefault = "Omer200526a";
+
+    //setters and getters
+
+    public static String getUserDefault() {
+        return userDefault;
+    }
+    public static String getUrlDefault() {
+        return urlDefault;
+    }
+    public static String getDatabasePasswordDefault() {
+        return databasePasswordDefault;
+    }
+
+    public static void setDatabasePassword(String databasePassword) {
+        staticgecici.databasePassword = databasePassword;
+    }
+    public static void setUser(String user) {
+        staticgecici.user = user;
+    }
+    public static void setUrl(String url) {
+        staticgecici.url = url;
+    }
+    public static String getUrl() {
+        return url;
+    }
+    public static String getUser() {
+        return user;
+    }
+    public static String getDatabasePassword() {
+        return databasePassword;
+    }
+
+
+
+
+    public static boolean testDatabaseConnection() {
+        Connection conn = null;
+        try {
+            // DriverManager.getConnection metodunu kullanarak bağlantı kuruyoruz
+            conn = DriverManager.getConnection(url, user, databasePassword);
+
+            // Eğer bağlantı başarılı ise (null değilse ve kapalı değilse)
+            return conn != null && !conn.isClosed();
+        } catch (SQLException e) {
+            // Bağlantı sırasında bir hata meydana geldiyse
+            System.out.println("Veritabanı bağlantı hatası: " + e.getMessage());
+            return false;
+        } finally {
+            // Her durumda bağlantıyı kapatmaya çalışıyoruz (açıldıysa)
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println("Bağlantı kapatılamadı: " + e.getMessage());
+                }
+            }
+        }
+    }
 
 
     public static String addStudentStatic(Student student) {

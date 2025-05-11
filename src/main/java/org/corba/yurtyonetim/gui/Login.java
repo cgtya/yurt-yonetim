@@ -3,6 +3,7 @@ package org.corba.yurtyonetim.gui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,10 +14,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.corba.yurtyonetim.users.staticgecici;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class Login {
+public class Login implements Initializable {
 
     @FXML
     private Button loginButton;
@@ -28,6 +32,15 @@ public class Login {
     private Label statusLabel;
     @FXML
     private Label title;
+
+    @FXML
+    private Label databaseStatusLabel;
+    @FXML
+    private PasswordField databasePasswordBox;
+    @FXML
+    private TextField databaseUsernameBox;
+    @FXML
+    private TextField databaseURLBox;
 
     public void login(ActionEvent event) throws InterruptedException, IOException {
         String username;
@@ -60,6 +73,7 @@ public class Login {
 
         redirect(event);
     }
+
     private void redirect(ActionEvent event) throws IOException {
         Stage stage;
         Parent root;
@@ -73,8 +87,44 @@ public class Login {
 
     }
 
-    private void databaseConnection(ActionEvent event) {
+    public void databaseConnection(ActionEvent event) {
+        //kutucuklar kontrol edilir boş işe varsayılan değerler getirilir, dolu ise yazılan değerler getirilir
+        if (databaseURLBox.getText().isEmpty()) {
+            staticgecici.setUrl(staticgecici.getUrlDefault());
+            staticgecici.setDatabasePassword(staticgecici.getDatabasePasswordDefault());
+        } else {
+            staticgecici.setUrl(databaseURLBox.getText());
+        }
 
+        if (databaseUsernameBox.getText().isEmpty()) {
+            staticgecici.setUser(staticgecici.getUserDefault());
+        } else {
+            staticgecici.setUser(databaseUsernameBox.getText());
+        }
+
+        if (databasePasswordBox.getText().isEmpty()) {
+            staticgecici.setDatabasePassword(staticgecici.getDatabasePasswordDefault());
+        } else {
+            staticgecici.setDatabasePassword(databasePasswordBox.getText());
+        }
+
+        //veritabanı bağlantısı kontrol edilir
+        initialize(null,null);
+
+    }
+
+    //program başlatıldığında veritabanı bağlantısı başarılı şekilde kurulmuş mu diye kontrol edip kullanıcıya geri bildirim verir
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        if (staticgecici.testDatabaseConnection()) {
+            databaseStatusLabel.setText("Veritabanı Bağlantısı: Başarılı");
+            databaseStatusLabel.setTextFill(Color.GREEN);
+        } else {
+
+            databaseStatusLabel.setText("Veritabanı Bağlantısı: Başarısız");
+            databaseStatusLabel.setTextFill(Color.RED);
+        }
+        statusLabel.setText("");
     }
 
 }
