@@ -101,6 +101,10 @@ public class staticgecici {
 
                 stmt.executeUpdate("INSERT INTO yurtlar VALUES (0, 0, 0, 0)");
 
+                stmt.executeUpdate("INSERT INTO yurtlar VALUES (0, 0, 0, 0)");
+
+                stmt.executeUpdate("INSERT INTO yonetici (name, surname, tcNo, telNo, eposta, password) VALUES ('admin', 'admin', '11111111111', '5000000000', 'admin@admin.org', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918')"); //default admin profile
+
                 System.out.println("Veritabanı ve tablolar başarıyla oluşturuldu");
             }
 
@@ -695,62 +699,60 @@ public class staticgecici {
         }
     }
 
-    //veritabanında halihazırda aynı tc ile kayıtlı öğrenci var mı diye kontrol
-    public static boolean tcKontrol(String kontrolet) throws SQLException{
-        String sql = "SELECT 1 FROM ogrenci WHERE tcNo = ?";
+
+    public static boolean kontrol(String kontrolet,String tip) throws SQLException{
+        String sql = "SELECT 1 FROM ogrenci WHERE " + tip + " = ?";
+
+        String sqlAdm = "SELECT 1 FROM yonetici WHERE " + tip + " = ?";
+
+
+        boolean ogr;
+        boolean adm;
+
 
         try (Connection conn = DriverManager.getConnection(url, user, databasePassword);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmt1 = conn.prepareStatement(sql);
+             PreparedStatement pstmt2 = conn.prepareStatement(sqlAdm)) {
 
-            pstmt.executeUpdate("USE " + databaseName);
+            selectDatabase(conn);
 
-            pstmt.setString(1, kontrolet);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.next();
+            pstmt1.setString(1, kontrolet);
+
+            pstmt2.setString(1, kontrolet);
+
+            try (ResultSet rs = pstmt1.executeQuery()) {
+                ogr = rs.next();
             }
+
+            try (ResultSet rs = pstmt2.executeQuery()) {
+                adm = rs.next();
+            }
+
+            //DELETE ME
+            System.out.println(ogr + " " + adm);
 
         } catch (SQLException e) {
             System.out.println("Sorgu hatası: " + e.getMessage());
             throw e; //exception ı sonraki metodda işlenmesi için iletir
         }
+
+        return ogr || adm;
+
     }
 
+    //veritabanında halihazırda aynı tc ile kayıtlı öğrenci veya yönetici var mı diye kontrol
+    public static boolean tcKontrol(String kontrolet) throws SQLException{
+        return kontrol(kontrolet,"tcNo");
+    }
+
+    //veritabanında halihazırda aynı eposta ile kayıtlı öğrenci veya yönetici var mı diye kontrol
     public static boolean epostaKontrol(String kontrolet) throws SQLException {
-        String sql = "SELECT 1 FROM ogrenci WHERE eposta = ?";
-
-        try (Connection conn = DriverManager.getConnection(url, user, databasePassword);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.executeUpdate("USE " + databaseName);
-
-            pstmt.setString(1, kontrolet);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.next();
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Sorgu hatası: " + e.getMessage());
-            throw e;
-        }
+        return kontrol(kontrolet,"eposta");
     }
 
+    //veritabanında halihazırda aynı telefon ile kayıtlı öğrenci veya yönetici var mı diye kontrol
     public static boolean telNoKontrol(String kontrolet) throws SQLException{
-        String sql = "SELECT 1 FROM ogrenci WHERE telNo = ?";
-
-        try (Connection conn = DriverManager.getConnection(url, user, databasePassword);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.executeUpdate("USE " + databaseName);
-
-            pstmt.setString(1, kontrolet);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.next();
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Sorgu hatası: " + e.getMessage());
-            throw e;
-        }
+        return kontrol(kontrolet,"telNo");
     }
 
     public static String deleteStudentAndUpdateDorm(String tcNo) {

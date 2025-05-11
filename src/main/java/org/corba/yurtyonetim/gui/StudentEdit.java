@@ -173,7 +173,7 @@ public class StudentEdit extends BaseMenu  {
             }
 
             if (alreadyExists) {
-                statusLabel.setText("Girdiğiniz e-postaya sahip bir öğrenci zaten vardır!");
+                statusLabel.setText("Girdiğiniz e-postaya sahip bir üye zaten vardır!");
                 statusLabel.setTextFill(Color.RED);
                 mailBox.clear();
                 return;
@@ -202,7 +202,7 @@ public class StudentEdit extends BaseMenu  {
             }
 
             if (alreadyExists) {
-                statusLabel.setText("Girdiğiniz telefon numarasına sahip bir öğrenci zaten vardır!");
+                statusLabel.setText("Girdiğiniz telefon numarasına sahip bir üye zaten vardır!");
                 statusLabel.setTextFill(Color.RED);
                 phoneBox.clear();
                 return;

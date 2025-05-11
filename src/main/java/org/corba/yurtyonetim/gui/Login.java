@@ -68,15 +68,15 @@ public class Login implements Initializable {
             return;
         }
 
-        if (!managerLoggingIn.getPassword().equals(password)) {
+        //hashes passwords for safekeeping
+        String passSha256 = DigestUtils.sha256Hex(password);
+
+        if (!managerLoggingIn.getPassword().equals(passSha256)) {
             loginError();
             return;
         }
 
-        //hashes passwords for safekeeping
-        String passSha256 = DigestUtils.sha256Hex(password);
-
-        //TODO password hash
+        staticgecici.setLoggedInManager(managerLoggingIn);
 
         redirect(event);
     }

@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.corba.yurtyonetim.gui.Login">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.corba.yurtyonetim.gui.Login">
    <children>
       <Label fx:id="title" prefHeight="17.0" prefWidth="492.0" text="KYK Yurt Yönetim Sistemi Giriş Ekranı" textFill="#000000c8">
          <opaqueInsets>
@@ -57,7 +57,7 @@
                                     <Insets top="5.0" />
                                  </HBox.margin>
                               </Label>
-                              <TextField fx:id="databaseURLBox" prefWidth="600.0" promptText="mysql://localhost:3306/kullanicilar?allowPublicKeyRetrieval=true&amp;useSSL=false&amp;serverTimezone=UTC" />
+                              <TextField fx:id="databaseURLBox" prefWidth="600.0" promptText="mysql://localhost:3306/?allowPublicKeyRetrieval=true&amp;useSSL=false&amp;serverTimezone=UTC" />
                            </children>
                         </HBox>
                         <HBox>

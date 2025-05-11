@@ -140,7 +140,7 @@
                                 <Insets bottom="5.0" left="5.0" right="5.0" top="8.0" />
                             </HBox.margin>
                         </Label>
-                        <TextField fx:id="nameBox" disable="true">
+                        <TextField fx:id="nameBox">
                             <HBox.margin>
                                 <Insets top="5.0" />
                             </HBox.margin>
@@ -154,7 +154,7 @@
                                 <Insets bottom="5.0" left="5.0" right="5.0" top="8.0" />
                             </HBox.margin>
                         </Label>
-                        <TextField fx:id="surnameBox" disable="true">
+                        <TextField fx:id="surnameBox">
                             <HBox.margin>
                                 <Insets top="5.0" />
                             </HBox.margin>
@@ -168,7 +168,7 @@
                                 <Insets bottom="5.0" left="5.0" right="5.0" top="8.0" />
                             </HBox.margin>
                         </Label>
-                        <TextField fx:id="phoneBox" disable="true">
+                        <TextField fx:id="phoneBox">
                             <HBox.margin>
                                 <Insets top="5.0" />
                             </HBox.margin>
@@ -182,7 +182,7 @@
                                 <Insets bottom="5.0" left="5.0" right="5.0" top="8.0" />
                             </HBox.margin>
                         </Label>
-                        <TextField fx:id="mailBox" disable="true">
+                        <TextField fx:id="mailBox">
                             <HBox.margin>
                                 <Insets top="5.0" />
                             </HBox.margin>
@@ -196,7 +196,7 @@
                                 <Insets bottom="5.0" left="5.0" right="5.0" top="8.0" />
                             </HBox.margin>
                         </Label>
-                        <TextField fx:id="passwordBox1" disable="true">
+                        <TextField fx:id="passwordBox1" promptText="(değiştirilmeyecek)">
                             <HBox.margin>
                                 <Insets top="5.0" />
                             </HBox.margin>
@@ -210,7 +210,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="8.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="passwordBox2" disable="true">
+                  <TextField fx:id="passwordBox2" promptText="(değiştirilmeyecek)">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
@@ -219,12 +219,12 @@
             </HBox>
                 <HBox>
                     <children>
-                        <Button fx:id="applyButton" disable="true" mnemonicParsing="false" onAction="#saveButtonClick" text="Değişiklikleri kaydet">
+                        <Button fx:id="applyButton" mnemonicParsing="false" onAction="#saveButtonClick" text="Değişiklikleri kaydet">
                             <HBox.margin>
                                 <Insets left="5.0" top="20.0" />
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="deleteButton" disable="true" mnemonicParsing="false" text="Yöneticiyi Sil">
+                        <Button fx:id="deleteButton" mnemonicParsing="false" text="Yöneticiyi Sil">
                             <HBox.margin>
                                 <Insets left="300.0" top="20.0" />
                             </HBox.margin>
