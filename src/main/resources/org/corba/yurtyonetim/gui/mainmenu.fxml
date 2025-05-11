@@ -13,18 +13,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.corba.yurtyonetim.gui.Mainmenu">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.corba.yurtyonetim.gui.Mainmenu">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
-                <Menu mnemonicParsing="false" text="Dosya">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="Kapat" />
-                    </items>
-                </Menu>
                 <Menu mnemonicParsing="false" text="Düzenle">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Ayarlar" />
+                        <MenuItem mnemonicParsing="false" onAction="#darkMode" text="Tema" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Yardım">

@@ -7,6 +7,7 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
@@ -19,14 +20,9 @@
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
-                <Menu mnemonicParsing="false" text="Dosya">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="Kapat" />
-                    </items>
-                </Menu>
                 <Menu mnemonicParsing="false" text="Düzenle">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Ayarlar" />
+                        <MenuItem mnemonicParsing="false" onAction="#darkMode" text="Tema" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Yardım">
@@ -196,11 +192,11 @@
                                 <Insets bottom="5.0" left="5.0" right="5.0" top="8.0" />
                             </HBox.margin>
                         </Label>
-                        <TextField fx:id="passwordBox1" promptText="(değiştirilmeyecek)">
-                            <HBox.margin>
-                                <Insets top="5.0" />
-                            </HBox.margin>
-                        </TextField>
+                  <PasswordField fx:id="passwordBox1" promptText="(değiştirilmeyecek)">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </PasswordField>
                     </children>
                 </HBox>
             <HBox>
@@ -210,11 +206,11 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="8.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="passwordBox2" promptText="(değiştirilmeyecek)">
+                  <PasswordField fx:id="passwordBox2" promptText="(değiştirilmeyecek)">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
-                  </TextField>
+                  </PasswordField>
                </children>
             </HBox>
                 <HBox>

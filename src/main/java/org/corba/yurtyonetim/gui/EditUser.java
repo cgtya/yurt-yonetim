@@ -5,8 +5,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.corba.yurtyonetim.users.Manager;
 import org.corba.yurtyonetim.users.staticgecici;
 
@@ -29,9 +31,9 @@ public class EditUser extends BaseMenu implements Initializable {
     @FXML
     private TextField phoneBox;
     @FXML
-    private TextField passwordBox1;
+    private PasswordField passwordBox1;
     @FXML
-    private TextField passwordBox2;
+    private PasswordField passwordBox2;
 
     @FXML
     private Button applyButton;
@@ -123,7 +125,25 @@ public class EditUser extends BaseMenu implements Initializable {
             }
         }
 
+        if (!(passwordInput1.isEmpty() && passwordInput2.isEmpty())) {
+            if (passwordInput1.equals(passwordInput2)) {
+                loggedInManager.setPassword(DigestUtils.sha256Hex(passwordInput1));
+            } else {
+                statusLabel.setText("Şifreler eşleşmiyor.");
+                statusLabel.setTextFill(Color.RED);
+                return;
+            }
+        }
 
+        loggedInManager.setName(nameInput);
+        loggedInManager.setSurname(surnameInput);
+        loggedInManager.setEmail(mailInput);
+        loggedInManager.setTelNo(phoneInput);
+
+        String message = staticgecici.updateManagerInDatabase(loggedInManager);
+
+        statusLabel.setText(message);
+        statusLabel.setTextFill(darkModeDefTextColor());
 
     }
 

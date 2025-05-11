@@ -16,10 +16,10 @@ import java.io.IOException;
 
 public class BaseMenu {
 
-    private boolean darkMode = false;
+    private static boolean darkMode = false;
 
     public void setDarkMode(boolean darkMode) {
-        this.darkMode = darkMode;
+        BaseMenu.darkMode = darkMode;
     }
     public boolean getDarkMode() {
         return darkMode;
@@ -113,5 +113,13 @@ public class BaseMenu {
     public void mainMenu(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("mainmenu.fxml"));
         changeScene(event,root);
+    }
+
+    public void darkMode(ActionEvent event) {
+        if (darkMode) {
+            darkMode = false;
+        } else {
+            darkMode = true;
+        }
     }
 }

@@ -20,14 +20,9 @@
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
-                <Menu mnemonicParsing="false" text="Dosya">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="Kapat" />
-                    </items>
-                </Menu>
                 <Menu mnemonicParsing="false" text="Düzenle">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Ayarlar" />
+                        <MenuItem mnemonicParsing="false" onAction="#darkMode" text="Tema" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Yardım">

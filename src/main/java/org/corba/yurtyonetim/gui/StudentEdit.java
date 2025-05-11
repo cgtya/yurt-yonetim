@@ -219,7 +219,7 @@ public class StudentEdit extends BaseMenu  {
         resetPage();
 
         statusLabel.setText(message);
-        statusLabel.setTextFill(Color.GREEN);
+        statusLabel.setTextFill(darkModeDefTextColor());
 
 
     }
@@ -235,6 +235,14 @@ public class StudentEdit extends BaseMenu  {
         statusLabel.setTextFill(Color.RED);
     }
 
-    //TODO öğrenci silme
+    public void deleteButtonClick(ActionEvent event) {
+        String message;
+        message = staticgecici.deleteStudentAndUpdateDorm(student.getTcNo());
+
+        resetPage();
+
+        statusLabel.setText(message);
+        statusLabel.setTextFill(darkModeDefTextColor());
+    }
 
 }

@@ -34,6 +34,7 @@ public class StudentAdd extends BaseMenu implements Initializable {
     //ChoiceBox un içine elemanları getiren metot
     @Override
     public void initialize(java.net.URL url, java.util.ResourceBundle rb) {
+        dormBox.getItems().clear();
         dormBox.getItems().addAll(staticgecici.getBosYurtlar());
     }
 
