@@ -4,35 +4,40 @@ import java.sql.*;
 import java.util.*;
 
 public class staticgecici {
-    private static String url = "jdbc:mysql://localhost:3306/kullanicilar?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
+
+    //database login bilgileri
+    private static String url = "jdbc:mysql://localhost:3306/?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
     private static String user = "root";
     private static String databasePassword = "Omer200526a";
+    private static String databaseName = "kullanicilar";
 
-    private static final String urlDefault = "jdbc:mysql://localhost:3306/kullanicilar?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
+    private static final String urlDefault = "jdbc:mysql://localhost:3306/?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
     private static final String userDefault = "root";
     private static final String databasePasswordDefault = "Omer200526a";
+    private static final String databaseNameDefault = "kullanicilar";
+
+    //giriş yapan kullanıcıyı tutan değişken
+    private static Manager loggedInManager;
 
     //setters and getters
-
-    public static String getUserDefault() {
-        return userDefault;
-    }
+    public static String getUserDefault() { return userDefault; }
     public static String getUrlDefault() {
         return urlDefault;
     }
     public static String getDatabasePasswordDefault() {
         return databasePasswordDefault;
     }
+    public static String getDatabaseNameDefault() { return databaseNameDefault; }
 
-    public static void setDatabasePassword(String databasePassword) {
-        staticgecici.databasePassword = databasePassword;
-    }
+    public static void setDatabasePassword(String databasePassword) { staticgecici.databasePassword = databasePassword; }
     public static void setUser(String user) {
         staticgecici.user = user;
     }
     public static void setUrl(String url) {
         staticgecici.url = url;
     }
+    public static void setDatabaseName(String databaseName) { staticgecici.databaseName = databaseName; }
+
     public static String getUrl() {
         return url;
     }
@@ -42,19 +47,67 @@ public class staticgecici {
     public static String getDatabasePassword() {
         return databasePassword;
     }
+    public static String getDatabaseName() { return databaseName; }
+
+    public static void setLoggedInManager(Manager loggedInManager) { staticgecici.loggedInManager = loggedInManager; }
+    public static Manager getLoggedInManager() { return loggedInManager; }
 
 
+    //statement için veritabanı seçer
+    private static void selectDatabase(Statement stmt) throws SQLException {
+        stmt.executeUpdate("USE " + databaseName);
+    }
 
-    //veritabanı bağlantısı başarılı ise true, değil ise false döndürür
+    //connection için veritabanı seçer
+    private static void selectDatabase(Connection conn) throws SQLException {
+        try (Statement stmt = conn.createStatement()) {
+            selectDatabase(stmt);
+        }
+    }
+
+
+    //veritabanı bağlantısı başarılı ise true, değil ise false döndürür -> veritabanı bağlanıtısı başarılı ve veritabanı bulunmuyorsa veri tabanı oluşturur
     public static boolean testDatabaseConnection() {
+
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url, user, databasePassword);
 
+            //database var mı yok mu kontrolü
+            String dbName = databaseName;
+            ResultSet resultSet = conn.getMetaData().getCatalogs();
+            boolean dbExists = false;
 
-            return conn != null && !conn.isClosed();
+            while (resultSet.next()) {
+                String databaseName = resultSet.getString(1);
+                if (databaseName.equals(dbName)) {
+                    dbExists = true;
+                    break;
+                }
+            }
+
+            if (!dbExists) {
+                //veritabanı yoksa oluşturur
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate("CREATE DATABASE " + dbName);
+                stmt.executeUpdate("USE " + dbName);
+
+                //tabloları yoksa oluşturur
+                stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ogrenci" + "(name VARCHAR(50), " + "surname VARCHAR(50), " + "tcNo VARCHAR(12), " + "telNo VARCHAR(11), " + "eposta VARCHAR(255), " + "currentDorm VARCHAR(40), " + "disiplinNo INT, " + "isOnLeave BOOLEAN)");
+
+                stmt.executeUpdate("CREATE TABLE IF NOT EXISTS yurtlar" + "(OsmanTan INT, " + "HuseyinGazi INT, " + "Golbasi INT, " + "Mogan INT)");
+
+                stmt.executeUpdate("CREATE TABLE IF NOT EXISTS yonetici" + "(name VARCHAR(50), " + "surname VARCHAR(50), " + "tcNo VARCHAR(12), " + "telNo VARCHAR(11), " + "eposta VARCHAR(255), " + "password VARCHAR(65))");
+
+                stmt.executeUpdate("INSERT INTO yurtlar VALUES (0, 0, 0, 0)");
+
+                System.out.println("Veritabanı ve tablolar başarıyla oluşturuldu");
+            }
+
+            //bağlantı testi
+            return DriverManager.getConnection(url, user, databasePassword) != null;
+
         } catch (SQLException e) {
-
             System.out.println("Veritabanı bağlantı hatası: " + e.getMessage());
             return false;
         } finally {
@@ -81,6 +134,7 @@ public class staticgecici {
         try {
             conn = DriverManager.getConnection(url, user, databasePassword);
             conn.setAutoCommit(false); // işlem bütünlüğü başlat
+            selectDatabase(conn);
 
             // burada boş yurtlar kontrol ediliyor
             try (Statement stmt = conn.createStatement();
@@ -143,6 +197,7 @@ public class staticgecici {
         return ("Öğrenci eklendi: " + student.getName() + " " + student.getSurname());
     }
 
+
     public static String makeBecayisStatic(String tc1, String tc2) {
         String name1 = null, name2 = null;
         String dorm1 = null, dorm2 = null;
@@ -155,6 +210,9 @@ public class staticgecici {
 
         try {
             conn = DriverManager.getConnection(url, user, databasePassword);
+
+            //veritabanı seç
+            selectDatabase(conn);
             conn.setAutoCommit(false);
 
             // ilk öğrencinin kimlik numarasını kontrol ediyoruz
@@ -248,6 +306,9 @@ public class staticgecici {
 
         try {
             conn = DriverManager.getConnection(url, user, databasePassword);
+
+            //veritabanı seç
+            selectDatabase(conn);
             conn.setAutoCommit(false);
 
             // Öğrenciyi buluyoruz ve kimlik numarası var mı kontrol edip eğer varsa mevcut yurdunu alıyoruz
@@ -343,6 +404,9 @@ public class staticgecici {
 
         try (Connection conn = DriverManager.getConnection(url, user, databasePassword)) {
 
+            //veritabanı seç
+            selectDatabase(conn);
+
             // Öğrencinin mevcut yurdunu bul
             try (PreparedStatement pstmt = conn.prepareStatement(sqlGetYurt)) {
                 pstmt.setString(1, tc);
@@ -381,27 +445,27 @@ public class staticgecici {
     }
 
 
-    public static Set<String> getBosYurtlar() { //bu method boş yurtları combobox biçiminde gui üzerinde listeleyebilmek için
+    public static Set<String> getBosYurtlar() {
         Set<String> bosYurtlar = new HashSet<>();
         String sqlYurtlar = "SELECT * FROM yurtlar LIMIT 1";
 
         try (Connection conn = DriverManager.getConnection(url, user, databasePassword)) {
 
+            selectDatabase(conn);
 
-            //boş yurtları topla
-            try (Statement stmt = conn.createStatement();
-                 ResultSet rs = stmt.executeQuery(sqlYurtlar)) {
+            try (Statement stmt = conn.createStatement()) {
+                try (ResultSet rs = stmt.executeQuery(sqlYurtlar)) {
+                    if (rs.next()) {
+                        ResultSetMetaData meta = rs.getMetaData();
+                        int columnCount = meta.getColumnCount();
 
-                if (rs.next()) {
-                    ResultSetMetaData meta = rs.getMetaData();
-                    int columnCount = meta.getColumnCount();
+                        for (int i = 1; i <= columnCount; i++) {
+                            String yurtAdi = meta.getColumnName(i);
+                            int doluluk = rs.getInt(i);
 
-                    for (int i = 1; i <= columnCount; i++) {
-                        String yurtAdi = meta.getColumnName(i);
-                        int doluluk = rs.getInt(i);
-
-                        if (doluluk < 200) {
-                            bosYurtlar.add(yurtAdi);
+                            if (doluluk < 200) {
+                                bosYurtlar.add(yurtAdi);
+                            }
                         }
                     }
                 }
@@ -420,6 +484,8 @@ public class staticgecici {
 
         try (Connection conn = DriverManager.getConnection(url, user, databasePassword);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.executeUpdate("USE " + databaseName);
 
             pstmt.setString(1, tcNo);
             ResultSet rs = pstmt.executeQuery();
@@ -452,6 +518,10 @@ public class staticgecici {
 
         try {
             conn = DriverManager.getConnection(url, user, databasePassword);
+
+            //veritabanı seç
+            selectDatabase(conn);
+
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setString(1, tcNo);
                 ResultSet rs = pstmt.executeQuery();
@@ -487,6 +557,8 @@ public class staticgecici {
         try (Connection conn = DriverManager.getConnection(url, user, databasePassword);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
+            pstmt.executeUpdate("USE " + databaseName);
+
             pstmt.setString(1, student.getName());
             pstmt.setString(2, student.getSurname());
             pstmt.setString(3, student.getTelNo());
@@ -514,6 +586,9 @@ public class staticgecici {
         String sqlUpdate = "UPDATE ogrenci SET isOnLeave = ? WHERE tcNo = ?";
 
         try (Connection conn = DriverManager.getConnection(url, user, databasePassword)) {
+
+            //veritabanı seç
+            selectDatabase(conn);
 
             boolean mevcutDurum;
 
@@ -555,6 +630,9 @@ public class staticgecici {
 
         try {
             conn = DriverManager.getConnection(url, user, databasePassword);
+
+            //veritabanı seç
+            selectDatabase(conn);
             conn.setAutoCommit(false);
 
             String currentDorm;
@@ -624,6 +702,8 @@ public class staticgecici {
         try (Connection conn = DriverManager.getConnection(url, user, databasePassword);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
+            pstmt.executeUpdate("USE " + databaseName);
+
             pstmt.setString(1, kontrolet);
             try (ResultSet rs = pstmt.executeQuery()) {
                 return rs.next();
@@ -640,6 +720,9 @@ public class staticgecici {
 
         try (Connection conn = DriverManager.getConnection(url, user, databasePassword);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.executeUpdate("USE " + databaseName);
+
             pstmt.setString(1, kontrolet);
             try (ResultSet rs = pstmt.executeQuery()) {
                 return rs.next();
@@ -656,6 +739,8 @@ public class staticgecici {
 
         try (Connection conn = DriverManager.getConnection(url, user, databasePassword);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.executeUpdate("USE " + databaseName);
 
             pstmt.setString(1, kontrolet);
             try (ResultSet rs = pstmt.executeQuery()) {
@@ -677,12 +762,17 @@ public class staticgecici {
 
         try {
             conn = DriverManager.getConnection(url, user, databasePassword);
+
+            //veritabanı seç
+            selectDatabase(conn);
             conn.setAutoCommit(false); // işlem bütünlüğü
 
             String currentDorm = null;
 
             // Öğrencinin yurt bilgilerini alıyoruz
             try (PreparedStatement pstmt = conn.prepareStatement(sqlSelectDorm)) {
+
+
                 pstmt.setString(1, tcNo);
                 ResultSet rs = pstmt.executeQuery();
                 if (rs.next()) {
@@ -732,6 +822,8 @@ public class staticgecici {
         try (Connection conn = DriverManager.getConnection(url, user, databasePassword);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
+            pstmt.executeUpdate("USE " + databaseName);
+
             pstmt.setString(1, tcNo);
             ResultSet rs = pstmt.executeQuery();
 
@@ -759,6 +851,8 @@ public class staticgecici {
 
         try (Connection conn = DriverManager.getConnection(url, user, databasePassword);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.executeUpdate("USE " + databaseName);
 
             pstmt.setString(1, manager.getName());
             pstmt.setString(2, manager.getSurname());

@@ -5,22 +5,6 @@ import java.util.*;
 
 public class Manager extends User {
 
-    Scanner scanner = new Scanner(System.in);
-    private static final String url = "jdbc:mysql://localhost:3306/kullanicilar?useSSL=false&serverTimezone=UTC";
-    private static final String user = "root";
-    private static final String databasePassword = "Omer200526a";
-
-    public String tempOg_Name;
-    public String tempOg_Surname;
-    public String tempOg_tcNo;
-    public String tempOg_telNo;
-    public String tempOg_eposta;
-    public String tempOg_currentDorm;
-    public String tempOg_roomNo;
-    public String tempOg_disiplinNo;
-    public String tempOg_isOnLeave;
-
-
     private String password;
 
      public Manager(String name,String Surname,String tcNo,String telNo,String eposta,String password){
@@ -37,14 +21,10 @@ public class Manager extends User {
     }
 
 
-    public void deleteStudent(Student student){
 
-    }
-
-    /*public void addStudent(){
+    /*
+    public void addStudent(){
         String sql = "INSERT INTO ogrenci (name, surname, tcNo, telNo, eposta, currentDorm, disiplinNo, isOnLeave) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
-        //TODO import tc kimlik , name, surname, tel no, mail
 
         Set<String> bosYurtlar = new HashSet<>();
         String sqlYurt = "SELECT * FROM yurtlar LIMIT 1";
@@ -118,9 +98,11 @@ public class Manager extends User {
             System.out.println("Ekleme hatası: " + e.getMessage());
         }
 
-    }*/
+    }
+    */
 
-    /*public void searchStudent(String tcNo) {
+    /*
+    public void searchStudent(String tcNo) {
         String sql = "SELECT * FROM ogrenci WHERE tcNo = ?";
 
         try (Connection conn = DriverManager.getConnection(url, user, databasePassword);
@@ -152,8 +134,10 @@ public class Manager extends User {
         } catch (SQLException e) {
             System.out.println("Arama hatası: " + e.getMessage());
         }
-    }*/
+    }
+    */
 
+    /*
     public void listStudents() {
         String sql = "SELECT * FROM ogrenci ORDER BY surname, name";
 
@@ -201,4 +185,5 @@ public class Manager extends User {
             System.out.println("Listeleme hatası: " + e.getMessage());
         }
     }
+    */
 }

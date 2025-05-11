@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.corba.yurtyonetim.users.Manager;
 import org.corba.yurtyonetim.users.staticgecici;
 
 import java.io.IOException;
@@ -42,34 +43,40 @@ public class Login implements Initializable {
     @FXML
     private TextField databaseURLBox;
 
-    public void login(ActionEvent event) throws InterruptedException, IOException {
+
+    public void login(ActionEvent event) throws IOException {
+        Manager managerLoggingIn;
+
         String username;
         String password;
+        String tcNoRegex = "^[1-9][0-9]{10}$"; // 11 haneli ve 0 ile başlamayan
 
-        try {
-            username = usernameBox.getText();
-            password = passwordBox.getText();
-        } catch (Exception e) {
-            statusLabel.setText("Giriş yapılırken bir sorunla karşılaşıldı: " + e);
-            statusLabel.setTextFill(Color.RED);
-            passwordBox.clear();
-            Thread.sleep(500);        //delay to prevent brute force attack
+        username = usernameBox.getText();
+        password = passwordBox.getText();
+
+
+        //checks passwords and usernames for lengths exceeding 40 characters
+        if (username.length()>40 || password.length()>40 || !username.matches(tcNoRegex)) {
+            loginError();
             return;
         }
 
-        //checks passwords and usernames for lengths exceeding 40 characters
-        if (username.length()>40 || password.length()>40) {
-            statusLabel.setText("Hatalı Kullanıcı Adı/Şifre girişi");
-            statusLabel.setTextFill(Color.RED);
-            passwordBox.clear();
-            Thread.sleep(500);        //delay to prevent brute force attack
+        managerLoggingIn = staticgecici.getManagerByTc(username);
+
+        if (managerLoggingIn == null) {
+            loginError();
+            return;
+        }
+
+        if (!managerLoggingIn.getPassword().equals(password)) {
+            loginError();
             return;
         }
 
         //hashes passwords for safekeeping
         String passSha256 = DigestUtils.sha256Hex(password);
 
-        //TODO checking credentials
+        //TODO password hash
 
         redirect(event);
     }
@@ -93,7 +100,7 @@ public class Login implements Initializable {
             staticgecici.setUrl(staticgecici.getUrlDefault());
             staticgecici.setDatabasePassword(staticgecici.getDatabasePasswordDefault());
         } else {
-            staticgecici.setUrl(databaseURLBox.getText());
+            staticgecici.setUrl("jdbc:" + databaseURLBox.getText());
         }
 
         if (databaseUsernameBox.getText().isEmpty()) {
@@ -119,12 +126,21 @@ public class Login implements Initializable {
         if (staticgecici.testDatabaseConnection()) {
             databaseStatusLabel.setText("Veritabanı Bağlantısı: Başarılı");
             databaseStatusLabel.setTextFill(Color.GREEN);
-        } else {
+            loginButton.setDisable(false);
 
+        } else {
             databaseStatusLabel.setText("Veritabanı Bağlantısı: Başarısız");
             databaseStatusLabel.setTextFill(Color.RED);
+            loginButton.setDisable(true);
         }
         statusLabel.setText("");
+    }
+
+    private void loginError() {
+        statusLabel.setText("Hatalı Kullanıcı Adı/Şifre girişi");
+        statusLabel.setTextFill(Color.RED);
+        passwordBox.clear();
+        usernameBox.clear();
     }
 
 }

@@ -10,6 +10,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import org.corba.yurtyonetim.users.staticgecici;
 
 import java.io.IOException;
 
@@ -97,7 +98,12 @@ public class BaseMenu {
         alert.setHeaderText("Çıkış yapmak üzeresiniz.");
         alert.setContentText("Çıkış yapılsın mı?");
 
+        //onay kutucuğu
         if (alert.showAndWait().get() == ButtonType.OK) {
+            //giriş yapan hesap değişkenini boşaltır
+            staticgecici.setLoggedInManager(null);
+
+            //anasayfa ekranına döndürür
             Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
             changeScene(event,root);
         }
