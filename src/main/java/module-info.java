@@ -3,7 +3,6 @@ module org.corba.yurtyonetim {
     requires javafx.fxml;
 
     requires org.kordamp.ikonli.javafx;
-    requires org.kordamp.bootstrapfx.core;
     requires java.sql;
     requires org.apache.commons.codec;
 

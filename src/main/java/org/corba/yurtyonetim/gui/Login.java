@@ -57,7 +57,6 @@ public class Login {
         String passSha256 = DigestUtils.sha256Hex(password);
 
         //TODO checking credentials
-        //TODO forwarding to correct users page
 
         redirect(event);
     }
