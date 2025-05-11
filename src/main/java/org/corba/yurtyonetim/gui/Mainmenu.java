@@ -48,7 +48,7 @@ public class Mainmenu extends BaseMenu implements Initializable {
         if (!(golbasi==-1)) {
             golbasiProg.setProgress(golbasi/200.0);
 
-            golbasiLabel.setText(golbasi+"/200");
+            golbasiLabel.setText(golbasi +"/200");
             golbasiLabel.setTextFill(darkModeDefTextColor());
 
         } else {
@@ -59,7 +59,7 @@ public class Mainmenu extends BaseMenu implements Initializable {
         if (!(huseyin==-1)) {
             huseyinProg.setProgress(huseyin/200.0);
 
-            huseyinLabel.setText(huseyin+"/200");
+            huseyinLabel.setText(huseyin +"/200");
             huseyinLabel.setTextFill(darkModeDefTextColor());
         } else {
             huseyinLabel.setText("Hata!");
@@ -69,7 +69,7 @@ public class Mainmenu extends BaseMenu implements Initializable {
         if (!(osmantan==-1)) {
             osmantanProg.setProgress(osmantan/200.0);
 
-            osmanLabel.setText(osmantan+"/200");
+            osmanLabel.setText(osmantan +"/200");
             osmanLabel.setTextFill(darkModeDefTextColor());
         } else {
             osmanLabel.setText("Hata!");
@@ -79,7 +79,7 @@ public class Mainmenu extends BaseMenu implements Initializable {
         if (!(mogan==-1)) {
             moganProg.setProgress(mogan/200.0);
 
-            moganLabel.setText(mogan+"/200");
+            moganLabel.setText(mogan +"/200");
             moganLabel.setTextFill(darkModeDefTextColor());
         } else {
             moganLabel.setText("Hata!");

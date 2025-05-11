@@ -2,7 +2,6 @@ package org.corba.yurtyonetim.users;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.InputStreamReader;
 import java.sql.*;
 import java.util.*;
 
@@ -124,10 +123,6 @@ public class staticgecici {
                 stmt.executeUpdate("CREATE TABLE IF NOT EXISTS yurtlar" + "(OsmanTan INT, " + "HuseyinGazi INT, " + "Golbasi INT, " + "Mogan INT)");
 
                 stmt.executeUpdate("CREATE TABLE IF NOT EXISTS yonetici" + "(name VARCHAR(50), " + "surname VARCHAR(50), " + "tcNo VARCHAR(12), " + "telNo VARCHAR(11), " + "eposta VARCHAR(255), " + "password VARCHAR(65))");
-
-                stmt.executeUpdate("INSERT INTO yurtlar VALUES (0, 0, 0, 0)");
-
-                stmt.executeUpdate("INSERT INTO yurtlar VALUES (0, 0, 0, 0)");
 
                 stmt.executeUpdate("INSERT INTO yonetici (name, surname, tcNo, telNo, eposta, password) VALUES ('admin', 'admin', '11111111111', '5000000000', 'admin@admin.org', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918')"); //default admin profile
 
@@ -1041,7 +1036,9 @@ public class staticgecici {
             System.out.println(e.toString());
             return e.getMessage();
         }
+        databaseCreated = false;
         return "Veri başarıyla içeri aktarıldı.";
+
     }
 
 
