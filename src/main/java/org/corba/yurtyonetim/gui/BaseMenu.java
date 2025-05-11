@@ -110,6 +110,22 @@ public class BaseMenu {
 
     }
 
+    public void logoutNoConf(ActionEvent event, String message) throws IOException {
+        //argüman olarak aldığı mesajı uyarı olarak gösterir
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Uyarı");
+        alert.setHeaderText("Çıkış yapılıyor.");
+        alert.setContentText(message);
+        alert.showAndWait();
+
+        //giriş yapan hesap değişkenini boşaltır
+        staticgecici.setLoggedInManager(null);
+
+        //anasayfa ekranına döndürür
+        Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
+        changeScene(event,root);
+    }
+
     public void mainMenu(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("mainmenu.fxml"));
         changeScene(event,root);

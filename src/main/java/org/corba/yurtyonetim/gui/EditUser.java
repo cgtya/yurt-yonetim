@@ -152,8 +152,8 @@ public class EditUser extends BaseMenu implements Initializable {
 
         //onay kutucuğu
         if (alert.showAndWait().get() == ButtonType.OK) {
-            staticgecici.deleteManager(loggedInManager.getTcNo());
-            logout(event);
+            //silme metodu çağırılır mesaj bildirim olarak gösteriilir
+            logoutNoConf(event, staticgecici.deleteManager(loggedInManager.getTcNo()));
         }
     }
 
