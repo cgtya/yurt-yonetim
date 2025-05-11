@@ -34,12 +34,20 @@
             <Insets left="50.0" right="150.0" top="10.0" />
          </VBox.margin>
       </PasswordField>
-      <Button fx:id="loginButton" mnemonicParsing="false" onAction="#login" text="Giriş Yap">
+      <HBox>
          <VBox.margin>
             <Insets left="50.0" top="20.0" />
          </VBox.margin>
-      </Button>
-      <Label fx:id="statusLabel" prefHeight="17.0" prefWidth="500.0">
+         <children>
+            <Button fx:id="loginButton" mnemonicParsing="false" onAction="#login" text="Giriş Yap" />
+            <Button fx:id="loadExampleButton" disable="true" mnemonicParsing="false" onAction="#loadExampleData" text="Örnek Veri Yükle" visible="false">
+               <HBox.margin>
+                  <Insets left="500.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+      <Label fx:id="statusLabel" prefHeight="40.0" prefWidth="700.0">
          <VBox.margin>
             <Insets left="50.0" top="20.0" />
          </VBox.margin>

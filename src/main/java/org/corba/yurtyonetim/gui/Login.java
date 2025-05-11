@@ -26,6 +26,9 @@ public class Login implements Initializable {
     @FXML
     private Button loginButton;
     @FXML
+    private Button loadExampleButton;
+
+    @FXML
     private TextField usernameBox;
     @FXML
     private PasswordField passwordBox;
@@ -127,13 +130,15 @@ public class Login implements Initializable {
             databaseStatusLabel.setText("Veritabanı Bağlantısı: Başarılı");
             databaseStatusLabel.setTextFill(Color.GREEN);
             loginButton.setDisable(false);
-
+            if (staticgecici.isDatabaseCreated()) {
+                firstSetup();
+            }
         } else {
             databaseStatusLabel.setText("Veritabanı Bağlantısı: Başarısız");
             databaseStatusLabel.setTextFill(Color.RED);
             loginButton.setDisable(true);
         }
-        statusLabel.setText("");
+
     }
 
     private void loginError() {
@@ -141,6 +146,20 @@ public class Login implements Initializable {
         statusLabel.setTextFill(Color.RED);
         passwordBox.clear();
         usernameBox.clear();
+    }
+
+    private void firstSetup() {
+        statusLabel.setText("İlk defa veritabanı oluşturulduğu algılandı! Örnek veri ile çalışmak ister misiniz?\nVeritabanı yeniden oluşturulana dek bir daha sorulmayacaktır!");
+        statusLabel.setTextFill(Color.BLACK);
+
+        loadExampleButton.setDisable(false);
+        loadExampleButton.setVisible(true);
+
+    }
+
+    public void loadExampleData() {
+        statusLabel.setText(staticgecici.importExampleData());
+        statusLabel.setTextFill(Color.BLACK);
     }
 
 }

@@ -144,7 +144,7 @@
                            </HBox.margin>
                         </Label>
                         <ProgressBar fx:id="golbasiProg" prefWidth="200.0" progress="0.0" />
-                        <Label prefWidth="70.0" text="/200">
+                        <Label fx:id="golbasiLabel" prefWidth="70.0" text="/200">
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>
@@ -162,7 +162,7 @@
                            </HBox.margin>
                         </Label>
                         <ProgressBar fx:id="moganProg" prefWidth="200.0" progress="0.0" />
-                        <Label prefWidth="70.0" text="/200">
+                        <Label fx:id="moganLabel" prefWidth="70.0" text="/200">
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>
@@ -180,7 +180,7 @@
                            </HBox.margin>
                         </Label>
                         <ProgressBar fx:id="huseyinProg" prefWidth="200.0" progress="0.0" />
-                        <Label prefWidth="70.0" text="/200">
+                        <Label fx:id="huseyinLabel" prefWidth="70.0" text="/200">
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>
@@ -198,7 +198,7 @@
                            </HBox.margin>
                         </Label>
                         <ProgressBar fx:id="osmantanProg" prefWidth="200.0" progress="0.0" />
-                        <Label prefWidth="70.0" text="/200">
+                        <Label fx:id="osmanLabel" prefWidth="70.0" text="/200">
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>

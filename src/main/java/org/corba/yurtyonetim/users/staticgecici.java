@@ -1,5 +1,8 @@
 package org.corba.yurtyonetim.users;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.sql.*;
 import java.util.*;
 
@@ -19,24 +22,35 @@ public class staticgecici {
     //giriş yapan kullanıcıyı tutan değişken
     private static Manager loggedInManager;
 
+    //ilk defa veritabanının oluşturulduğunu belirten değişken
+    private static boolean databaseCreated = false;
+
     //setters and getters
-    public static String getUserDefault() { return userDefault; }
+    public static String getUserDefault() {
+        return userDefault;
+    }
     public static String getUrlDefault() {
         return urlDefault;
     }
     public static String getDatabasePasswordDefault() {
         return databasePasswordDefault;
     }
-    public static String getDatabaseNameDefault() { return databaseNameDefault; }
+    public static String getDatabaseNameDefault() {
+        return databaseNameDefault;
+    }
 
-    public static void setDatabasePassword(String databasePassword) { staticgecici.databasePassword = databasePassword; }
+    public static void setDatabasePassword(String databasePassword) {
+        staticgecici.databasePassword = databasePassword;
+    }
     public static void setUser(String user) {
         staticgecici.user = user;
     }
     public static void setUrl(String url) {
         staticgecici.url = url;
     }
-    public static void setDatabaseName(String databaseName) { staticgecici.databaseName = databaseName; }
+    public static void setDatabaseName(String databaseName) {
+        staticgecici.databaseName = databaseName;
+    }
 
     public static String getUrl() {
         return url;
@@ -47,11 +61,23 @@ public class staticgecici {
     public static String getDatabasePassword() {
         return databasePassword;
     }
-    public static String getDatabaseName() { return databaseName; }
+    public static String getDatabaseName() {
+        return databaseName;
+    }
 
-    public static void setLoggedInManager(Manager loggedInManager) { staticgecici.loggedInManager = loggedInManager; }
-    public static Manager getLoggedInManager() { return loggedInManager; }
+    public static void setLoggedInManager(Manager loggedInManager) {
+        staticgecici.loggedInManager = loggedInManager;
+    }
+    public static Manager getLoggedInManager() {
+        return loggedInManager;
+    }
 
+    public static void setDatabaseCreated(boolean databaseCreated) {
+        staticgecici.databaseCreated = databaseCreated;
+    }
+    public static boolean isDatabaseCreated() {
+        return databaseCreated;
+    }
 
     //statement için veritabanı seçer
     private static void selectDatabase(Statement stmt) throws SQLException {
@@ -106,6 +132,7 @@ public class staticgecici {
                 stmt.executeUpdate("INSERT INTO yonetici (name, surname, tcNo, telNo, eposta, password) VALUES ('admin', 'admin', '11111111111', '5000000000', 'admin@admin.org', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918')"); //default admin profile
 
                 System.out.println("Veritabanı ve tablolar başarıyla oluşturuldu");
+                databaseCreated = true;
             }
 
             //bağlantı testi
@@ -770,9 +797,6 @@ public class staticgecici {
                 adm = rs.next();
             }
 
-            //DELETE ME
-            System.out.println(ogr + " " + adm);
-
         } catch (SQLException e) {
             System.out.println("Sorgu hatası: " + e.getMessage());
             throw e; //exception ı sonraki metodda işlenmesi için iletir
@@ -961,6 +985,64 @@ public class staticgecici {
         }
     }
 
+
+    public static int getStudentCount(String dorm) {
+        String sql = "SELECT " + dorm +" FROM yurtlar";
+
+        try (Connection conn = DriverManager.getConnection(url, user, databasePassword);
+             Statement pstmt = conn.prepareStatement(sql)) {
+
+            selectDatabase(conn);
+
+            try (ResultSet rs = pstmt.executeQuery(sql)) {
+
+                if (rs.next()) {
+                    return rs.getInt(dorm);
+                } else {
+                    return -1;
+                }
+            } catch (SQLException e) {
+                System.out.println("Sorgu sırasında hata: " + e.getMessage());
+                return -1;
+            }
+        } catch (SQLException e) {
+            System.out.println("Sorgu sırasında hata: " + e.getMessage());
+            return -1;
+        }
+    }
+
+    public static String importExampleData() {
+        try {
+            Connection conn = DriverManager.getConnection(url,user,databasePassword);
+            selectDatabase(conn);
+            Statement statement = conn.createStatement();
+
+            //sql dosyasının konumu
+            BufferedReader br = new BufferedReader(new FileReader("src/main/resources/org/corba/yurtyonetim/exampledata.sql"));
+            StringBuilder query = new StringBuilder();
+            String line;
+
+            //dosyanın sonuna gelinmediği sürece devam eder
+            while((line = br.readLine()) != null) {
+                if(line.trim().startsWith("-- ")) {
+                    continue;
+                }
+
+                query.append(line).append(" ");
+
+                if(line.trim().endsWith(";")) {
+
+                    statement.execute(query.toString().trim());
+                    query = new StringBuilder();
+                }
+            }
+        }
+        catch (Exception e) {
+            System.out.println(e.toString());
+            return e.getMessage();
+        }
+        return "Veri başarıyla içeri aktarıldı.";
+    }
 
 
 }
