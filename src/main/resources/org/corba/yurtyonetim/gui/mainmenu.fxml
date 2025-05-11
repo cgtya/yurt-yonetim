@@ -89,7 +89,7 @@
                      <children>
                         <Label text="Yurt Veritabanı Yönetim Sistemi">
                            <HBox.margin>
-                              <Insets left="5.0" top="10.0" />
+                              <Insets top="10.0" />
                            </HBox.margin>
                            <font>
                               <Font name="System Bold" size="20.0" />
@@ -209,6 +209,9 @@
                      </VBox.margin>
                   </HBox>
                </children>
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
             </VBox>
             </children>
             <BorderPane.margin>
