@@ -37,7 +37,7 @@ public class BecayisManagement extends BaseMenu{
     public void updateButtonClick(ActionEvent event) {
 
         statusLabel.setText("");
-        statusLabel.setTextFill(Color.BLACK);
+        statusLabel.setTextFill(darkModeDefTextColor());
 
         String tcNoRegex = "^[1-9][0-9]{10}$"; // 11 haneli ve 0 ile başlamayan
 
@@ -47,7 +47,7 @@ public class BecayisManagement extends BaseMenu{
         //tc numarası kontrolü
         if (!(tcNo1.matches(tcNoRegex) && tcNo2.matches(tcNoRegex))) {
             statusLabel.setText("Geçersiz kimlik numarası!");
-            statusLabel.setTextFill(javafx.scene.paint.Color.RED);
+            statusLabel.setTextFill(Color.RED);
             return;
         }
 
@@ -58,13 +58,13 @@ public class BecayisManagement extends BaseMenu{
         //geçerli öğrenci kontrolü
         if (st1 == null) {
             statusLabel.setText("İlk kutucuktaki kimlik numarasına sahip öğrenci bulunamadı!");
-            statusLabel.setTextFill(javafx.scene.paint.Color.RED);
+            statusLabel.setTextFill(Color.RED);
             return;
         }
 
         if (st2 == null) {
             statusLabel.setText("İkinci kutucuktaki kimlik numarasına sahip öğrenci bulunamadı!");
-            statusLabel.setTextFill(javafx.scene.paint.Color.RED);
+            statusLabel.setTextFill(Color.RED);
             return;
         }
 
@@ -74,7 +74,7 @@ public class BecayisManagement extends BaseMenu{
         //öğrenciler aynı yurtta mı kontrolü
         if (dorm1.equals(dorm2)) {
             statusLabel.setText("Öğrenciler zaten aynı yurtta bulunmaktadır. Yurt: " + dorm1);
-            statusLabel.setTextFill(javafx.scene.paint.Color.RED);
+            statusLabel.setTextFill(Color.RED);
             return;
         }
 
@@ -88,11 +88,13 @@ public class BecayisManagement extends BaseMenu{
         updateButton.setDisable(true);
         applyButton.setDisable(false);
 
+        statusLabel.setText("");
+        statusLabel.setTextFill(darkModeDefTextColor());
     }
 
     public void applyButtonClick(ActionEvent event) {
         statusLabel.setText("");
-        statusLabel.setTextFill(Color.BLACK);
+        statusLabel.setTextFill(darkModeDefTextColor());
 
         String tcNo1 = tcBox1.getText();
         String tcNo2 = tcBox2.getText();
@@ -102,7 +104,7 @@ public class BecayisManagement extends BaseMenu{
         resetPage();
 
         statusLabel.setText(message);
-        statusLabel.setTextFill(Color.BLACK);
+        
     }
 
     public void resetPage() {

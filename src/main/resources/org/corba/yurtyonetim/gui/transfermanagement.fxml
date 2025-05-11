@@ -2,18 +2,21 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.corba.yurtyonetim.gui.TransferManagement">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.corba.yurtyonetim.gui.TransferManagement">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
@@ -85,10 +88,91 @@
         <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" BorderPane.alignment="CENTER">
             <children>
                 <Separator orientation="VERTICAL" prefHeight="200.0" />
-            <Label text="nakil işlemleri" />
+                <VBox>
+                    <children>
+                        <HBox>
+                            <children>
+                                <Label text="Nakil İşlemleri">
+                                    <font>
+                                        <Font name="System Bold" size="20.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets top="5.0" />
+                                    </HBox.margin>
+                                </Label>
+                            </children>
+                        </HBox>
+                        <HBox>
+                            <children>
+                                <Label text="Nakli yapılacak öğrencinin TC Kimlik Numarasını giriniz:">
+                                    <HBox.margin>
+                                        <Insets top="5.0" />
+                                    </HBox.margin>
+                                </Label>
+                            </children>
+                        </HBox>
+                        <HBox>
+                            <children>
+                                <Label prefWidth="100.0" text="Öğrenci:">
+                                    <HBox.margin>
+                                        <Insets right="5.0" top="5.0" />
+                                    </HBox.margin>
+                                </Label>
+                                <TextField fx:id="tcBox" prefWidth="162.0" promptText="1**********" />
+                                <TextField fx:id="dormBox" disable="true" prefWidth="162.0" promptText="Yurt Adı">
+                                    <HBox.margin>
+                                        <Insets left="10.0" />
+                                    </HBox.margin>
+                                </TextField>
+                            </children>
+                            <VBox.margin>
+                                <Insets top="10.0" />
+                            </VBox.margin>
+                        </HBox>
+                        <HBox>
+                            <children>
+                                <Label prefWidth="100.0" text="Müsait Yurtlar:">
+                                    <HBox.margin>
+                                        <Insets right="5.0" top="5.0" />
+                                    </HBox.margin>
+                                </Label>
+                        <ChoiceBox fx:id="availableDorm" disable="true" prefWidth="162.0" />
+                            </children>
+                            <VBox.margin>
+                                <Insets top="10.0" />
+                            </VBox.margin>
+                        </HBox>
+                        <HBox>
+                            <children>
+                                <Button fx:id="updateButton" mnemonicParsing="false" onAction="#updateButtonClick" prefWidth="80.0" text="Güncelle">
+                                    <HBox.margin>
+                                        <Insets top="10.0" />
+                                    </HBox.margin>
+                                </Button>
+                                <Button fx:id="applyButton" disable="true" mnemonicParsing="false" onAction="#applyButtonClick" prefWidth="80.0" text="Uygula">
+                                    <HBox.margin>
+                                        <Insets left="161.0" top="10.0" />
+                                    </HBox.margin>
+                                </Button>
+                            </children>
+                            <VBox.margin>
+                                <Insets top="20.0" />
+                            </VBox.margin>
+                        </HBox>
+                        <HBox>
+                            <children>
+                                <Label fx:id="statusLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="60.0" prefWidth="700.0">
+                                    <HBox.margin>
+                                        <Insets top="5.0" />
+                                    </HBox.margin>
+                                </Label>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
             </children>
             <BorderPane.margin>
-                <Insets />
+                <Insets left="5.0" right="5.0" top="5.0" />
             </BorderPane.margin>
         </HBox>
     </center>

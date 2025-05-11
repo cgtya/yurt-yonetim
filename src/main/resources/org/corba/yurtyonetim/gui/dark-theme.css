@@ -1,0 +1,77 @@
+/* Base colors */
+.root {
+    -fx-base: #1d1d1d;
+    -fx-background-color: #2b2b2b;
+    -fx-control-inner-background: #2b2b2b;
+    -fx-accent: #4CAF50;
+    -fx-focus-color: #4CAF50;
+    -fx-text-fill: #e1e1e1;
+}
+
+/* Menu styling */
+.menu-bar {
+    -fx-background-color: derive(-fx-base, -30%);
+}
+
+.menu-bar .menu-button:hover, .menu-bar .menu:hover {
+    -fx-background-color: -fx-accent;
+}
+
+.menu-item {
+    -fx-background-color: derive(-fx-base, -30%);
+}
+
+.menu-item:hover {
+    -fx-background-color: -fx-accent;
+}
+
+/* Button styling */
+.button {
+    -fx-background-color: derive(-fx-base, -20%);
+    -fx-text-fill: white;
+    -fx-background-radius: 3;
+}
+
+.button:hover {
+    -fx-background-color: -fx-accent;
+}
+
+/* TextField styling */
+.text-field {
+    -fx-background-color: derive(-fx-base, -20%);
+    -fx-text-fill: white;
+    -fx-background-radius: 3;
+    -fx-border-color: derive(-fx-base, 10%);
+    -fx-border-radius: 3;
+    -fx-prompt-text-fill: derive(-fx-base, 50%);
+}
+
+/* ChoiceBox styling */
+.choice-box {
+    -fx-background-color: derive(-fx-base, -20%);
+    -fx-mark-color: white;
+}
+
+.choice-box .context-menu {
+    -fx-background-color: derive(-fx-base, -20%);
+}
+
+/* Label styling */
+.label {
+    -fx-text-fill: white;
+}
+
+/* Separator styling */
+.separator {
+    -fx-background-color: derive(-fx-base, 10%);
+}
+
+/* Disabled controls */
+.button:disabled, .choice-box:disabled, .text-field:disabled {
+    -fx-opacity: 0.4;
+}
+
+/* Font icons */
+.ikonli-font-icon {
+    -fx-icon-color: white;
+}

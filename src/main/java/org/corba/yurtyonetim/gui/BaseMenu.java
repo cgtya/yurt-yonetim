@@ -8,13 +8,29 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class BaseMenu {
 
+    private boolean darkMode = false;
 
+    public void setDarkMode(boolean darkMode) {
+        this.darkMode = darkMode;
+    }
+    public boolean getDarkMode() {
+        return darkMode;
+    }
+
+    public Color darkModeDefTextColor() {
+        if (darkMode) {
+            return Color.WHITE;
+        } else {
+            return Color.BLACK;
+        }
+    }
 
     public void changeScene(ActionEvent event, Parent root) throws IOException {
         Stage stage;
@@ -28,8 +44,15 @@ public class BaseMenu {
         } else {
             throw new IllegalArgumentException("Desteklenmeyen kaynak tipi: " + source.getClass());
         }
-        
+
         scene = new Scene(root);
+
+        if (darkMode) {
+            String cssPath = getClass().getResource("/org/corba/yurtyonetim/gui/dark-theme.css").toExternalForm();
+            scene.getStylesheets().clear();
+            scene.getStylesheets().add(cssPath);
+        }
+
         stage.setScene(scene);
         stage.show();
     }
