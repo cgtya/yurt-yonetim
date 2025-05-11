@@ -50,7 +50,9 @@ public class StudentEdit extends BaseMenu  {
         mailBox.clear();
         phoneBox.clear();
         dormBox.clear();
+
         penaltyLabel.setText("");
+
         onLeaveCheck.setSelected(false);
         nameBox.setDisable(true);
         surnameBox.setDisable(true);
@@ -61,6 +63,7 @@ public class StudentEdit extends BaseMenu  {
         deleteButton.setDisable(true);
         tcBox.setDisable(false);
         searchButton.setDisable(false);
+
         statusLabel.setText("");
         student = null;
     }
