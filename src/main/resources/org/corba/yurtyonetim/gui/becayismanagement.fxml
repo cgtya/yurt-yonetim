@@ -49,7 +49,7 @@
                         <MenuItem mnemonicParsing="false" onAction="#studentEdit" text="Öğrenci Bilgisi Düzenle" />
                     </items>
                     <graphic>
-                        <FontIcon iconLiteral="mdi2a-account" iconSize="24" />
+                        <FontIcon iconLiteral="mdi2a-account-outline" iconSize="24" />
                     </graphic>
                 </MenuButton>
                 <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#becayisManagement" prefHeight="48.0" prefWidth="170.0" text="Becayiş İşlemleri">

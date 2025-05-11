@@ -55,7 +55,7 @@
                                 <MenuItem mnemonicParsing="false" onAction="#studentEdit" text="Öğrenci Bilgisi Düzenle" />
                             </items>
                             <graphic>
-                                <FontIcon iconLiteral="mdi2a-account" iconSize="24" />
+                                <FontIcon iconLiteral="mdi2a-account-outline" iconSize="24" />
                             </graphic>
                         </MenuButton>
                         <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#becayisManagement" prefHeight="48.0" prefWidth="170.0" text="Becayiş İşlemleri">
@@ -215,18 +215,27 @@
             </HBox>
                 <HBox>
                     <children>
-                        <Button fx:id="applyButton" mnemonicParsing="false" onAction="#saveButtonClick" text="Değişiklikleri kaydet">
+                        <Button fx:id="applyButton" mnemonicParsing="false" onAction="#saveButtonClick" prefWidth="150.0" text="Değişiklikleri kaydet">
                             <HBox.margin>
                                 <Insets left="5.0" top="20.0" />
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="deleteButton" mnemonicParsing="false" text="Yöneticiyi Sil">
+                        <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteButtonClick" text="Yöneticiyi Sil">
                             <HBox.margin>
                                 <Insets left="300.0" top="20.0" />
                             </HBox.margin>
                         </Button>
                     </children>
                 </HBox>
+            <HBox>
+               <children>
+                  <Button mnemonicParsing="false" onAction="#addManager" prefWidth="150.0" text="Yeni Yönetici Oluştur">
+                     <HBox.margin>
+                        <Insets left="5.0" top="50.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
             </children>
             <BorderPane.margin>
                 <Insets left="5.0" top="5.0" />

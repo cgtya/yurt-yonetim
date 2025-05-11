@@ -156,7 +156,7 @@ public class StudentAdd extends BaseMenu implements Initializable {
         String message = staticgecici.addStudentStatic(student);
 
         statusLabel.setText(message);
-        statusLabel.setTextFill(Color.GREEN);
+        statusLabel.setTextFill(darkModeDefTextColor());
 
 
         //eğer yerleştirilen öğrenci yurttaki son kontenjanı dolduruyorsa yurdun müsait yurtlardan çıkarılması için

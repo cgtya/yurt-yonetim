@@ -115,6 +115,11 @@ public class BaseMenu {
         changeScene(event,root);
     }
 
+    public void addManager(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("addmanager.fxml"));
+        changeScene(event,root);
+    }
+
     public void darkMode(ActionEvent event) {
         if (darkMode) {
             darkMode = false;

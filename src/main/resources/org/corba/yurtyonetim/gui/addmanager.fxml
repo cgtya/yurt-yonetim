@@ -7,13 +7,16 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.corba.yurtyonetim.gui.Mainmenu">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.corba.yurtyonetim.gui.AddManager">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
@@ -80,7 +83,35 @@
         <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" BorderPane.alignment="CENTER">
             <children>
                 <Separator orientation="VERTICAL" prefHeight="200.0" />
-            <Label text="ana ekran" />
+            <VBox spacing="15.0">
+               <children>
+                  <Label prefHeight="29.0" prefWidth="175.0" text="Yönetici Ekleme">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="nameBox" maxWidth="-Infinity" prefWidth="250.0" promptText="Ad" />
+                  <TextField fx:id="surnameBox" maxWidth="-Infinity" prefWidth="250.0" promptText="Soyad" />
+                  <TextField fx:id="mailBox" maxWidth="-Infinity" prefWidth="250.0" promptText="E-posta" />
+                  <TextField fx:id="phoneBox" maxWidth="-Infinity" prefWidth="250.0" promptText="Telefon No." />
+                  <TextField fx:id="IDBox" maxWidth="-Infinity" prefWidth="250.0" promptText="T.C. Kimlik No" />
+                  <PasswordField fx:id="passwordBox1" maxWidth="-Infinity" prefWidth="250.0" promptText="Şifre" />
+                  <PasswordField fx:id="passwordBox2" maxWidth="-Infinity" prefWidth="250.0" promptText="Şifre (Tekrar)" />
+                  <Label fx:id="statusLabel" prefHeight="18.0" prefWidth="600.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <Button mnemonicParsing="false" onAction="#buttonClickAddManager" text="Yöneticiyi Kaydet">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <HBox.margin>
+                  <Insets left="5.0" top="10.0" />
+               </HBox.margin>
+            </VBox>
             </children>
             <BorderPane.margin>
                 <Insets />
