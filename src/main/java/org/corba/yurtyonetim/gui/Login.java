@@ -160,6 +160,7 @@ public class Login implements Initializable {
     public void loadExampleData() {
         statusLabel.setText(staticgecici.importExampleData());
         statusLabel.setTextFill(Color.BLACK);
+        loadExampleButton.setDisable(true);
     }
 
 }
