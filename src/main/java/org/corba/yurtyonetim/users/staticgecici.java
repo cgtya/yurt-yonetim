@@ -10,12 +10,12 @@ public class staticgecici {
     //database login bilgileri
     private static String url = "jdbc:mysql://localhost:3306/?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
     private static String user = "root";
-    private static String databasePassword = "Omer200526a";
+    private static String databasePassword = "";
     private static String databaseName = "kullanicilar";
 
     private static final String urlDefault = "jdbc:mysql://localhost:3306/?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
     private static final String userDefault = "root";
-    private static final String databasePasswordDefault = "Omer200526a";
+    private static final String databasePasswordDefault = "";
     private static final String databaseNameDefault = "kullanicilar";
 
     //giriş yapan kullanıcıyı tutan değişken
