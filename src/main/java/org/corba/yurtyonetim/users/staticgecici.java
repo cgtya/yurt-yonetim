@@ -1,7 +1,8 @@
 package org.corba.yurtyonetim.users;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.*;
 import java.util.*;
 
@@ -1012,27 +1013,31 @@ public class staticgecici {
             selectDatabase(conn);
             Statement statement = conn.createStatement();
 
-            //sql dosyasının konumu
-            BufferedReader br = new BufferedReader(new FileReader("src/main/resources/org/corba/yurtyonetim/exampledata.sql"));
+            //sql dosyası okuma
+            InputStream inputStream = staticgecici.class.getResourceAsStream("/org/corba/yurtyonetim/exampledata.sql");
+            if (inputStream == null) {
+                return "SQL dosyası kaynak klasöründe bulunamadı";
+            }
+            BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
             StringBuilder query = new StringBuilder();
             String line;
 
-            //dosyanın sonuna gelinmediği sürece devam eder
-            while((line = br.readLine()) != null) {
-                if(line.trim().startsWith("-- ")) {
+            // -- içeren yorum satırı çıkarılır
+            while ((line = br.readLine()) != null) {
+                if (line.trim().startsWith("-- ")) {
                     continue;
                 }
 
                 query.append(line).append(" ");
 
-                if(line.trim().endsWith(";")) {
-
+                // ; içeren cümle veritabanında çalıştırılır
+                if (line.trim().endsWith(";")) {
                     statement.execute(query.toString().trim());
                     query = new StringBuilder();
                 }
             }
-        }
-        catch (Exception e) {
+            br.close();
+        } catch (Exception e) {
             System.out.println(e.toString());
             return e.getMessage();
         }
