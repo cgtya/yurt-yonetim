@@ -6,9 +6,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
+import org.corba.yurtyonetim.database.DormDAO;
+import org.corba.yurtyonetim.database.StudentDAO;
 import org.corba.yurtyonetim.users.Student;
-import org.corba.yurtyonetim.users.staticgecici;
-
 
 
 
@@ -52,8 +52,8 @@ public class BecayisManagement extends BaseMenu{
         }
 
         //öğrenciler veritabanından çekilir
-        st1 = staticgecici.getStudentByTc(tcNo1);
-        st2 = staticgecici.getStudentByTc(tcNo2);
+        st1 = StudentDAO.getStudentByTc(tcNo1);
+        st2 = StudentDAO.getStudentByTc(tcNo2);
 
         //geçerli öğrenci kontrolü
         if (st1 == null) {
@@ -99,7 +99,7 @@ public class BecayisManagement extends BaseMenu{
         String tcNo1 = tcBox1.getText();
         String tcNo2 = tcBox2.getText();
 
-        String message = staticgecici.makeBecayisStatic(tcNo1,tcNo2);
+        String message = DormDAO.makeBecayisStatic(tcNo1,tcNo2);
 
         resetPage();
 

@@ -4,8 +4,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
+import org.corba.yurtyonetim.database.DormDAO;
+import org.corba.yurtyonetim.database.StudentDAO;
+import org.corba.yurtyonetim.database.Validation;
 import org.corba.yurtyonetim.users.Student;
-import org.corba.yurtyonetim.users.staticgecici;
 
 import java.sql.SQLException;
 
@@ -90,7 +92,7 @@ public class StudentEdit extends BaseMenu  {
 
         //database erişiminde sorun yaşanması/öğrenci bulunamaması durumu için kontrol
         try {
-            student = staticgecici.getStudentByTc(tcNo);
+            student = StudentDAO.getStudentByTc(tcNo);
             if (student == null) {
                 statusLabel.setText("Böyle bir öğrenci bulunamadı.");
                 statusLabel.setTextFill(Color.RED);
@@ -165,7 +167,7 @@ public class StudentEdit extends BaseMenu  {
 
             //veritabanı erişiminde sorun yaşanması durumu için kontrol
             try {
-                alreadyExists = staticgecici.epostaKontrol(newMail);
+                alreadyExists = Validation.epostaKontrol(newMail);
             } catch (SQLException e) {
                 statusLabel.setText("Veritabanı erişiminde sorun yaşandı: " + e.getMessage());
                 statusLabel.setTextFill(Color.RED);
@@ -194,7 +196,7 @@ public class StudentEdit extends BaseMenu  {
 
             //veritabanı erişiminde sorun yaşanması durumu için kontrol
             try {
-                alreadyExists = staticgecici.telNoKontrol(newPhone);
+                alreadyExists = Validation.telNoKontrol(newPhone);
             } catch (SQLException e) {
                 statusLabel.setText("Veritabanı erişiminde sorun yaşandı: " + e.getMessage());
                 statusLabel.setTextFill(Color.RED);
@@ -214,7 +216,7 @@ public class StudentEdit extends BaseMenu  {
         student.setEmail(newMail);
         student.setTelNo(newPhone);
 
-        String message = staticgecici.updateStudentInDatabase(student);
+        String message = StudentDAO.updateStudentInDatabase(student);
 
         resetPage();
 
@@ -227,7 +229,7 @@ public class StudentEdit extends BaseMenu  {
     //cezayı 1 artırıp sayfayı sıfırlar
     public void penaltyButtonClick(ActionEvent event) {
 
-        String message = staticgecici.addDisiplineRecord(student.getTcNo());
+        String message = StudentDAO.addDisiplineRecord(student.getTcNo());
 
         resetPage();
 
@@ -237,7 +239,7 @@ public class StudentEdit extends BaseMenu  {
 
     public void deleteButtonClick(ActionEvent event) {
         String message;
-        message = staticgecici.deleteStudentAndUpdateDorm(student.getTcNo());
+        message = DormDAO.deleteStudentAndUpdateDorm(student.getTcNo());
 
         resetPage();
 

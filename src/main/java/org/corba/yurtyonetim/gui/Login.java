@@ -14,8 +14,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.corba.yurtyonetim.database.DatabaseConfig;
+import org.corba.yurtyonetim.database.ManagerDAO;
+import org.corba.yurtyonetim.session.SessionManager;
 import org.corba.yurtyonetim.users.Manager;
-import org.corba.yurtyonetim.users.staticgecici;
 
 import java.io.IOException;
 import java.net.URL;
@@ -64,7 +66,7 @@ public class Login implements Initializable {
             return;
         }
 
-        managerLoggingIn = staticgecici.getManagerByTc(username);
+        managerLoggingIn = ManagerDAO.getManagerByTc(username);
 
         if (managerLoggingIn == null) {
             loginError();
@@ -79,7 +81,7 @@ public class Login implements Initializable {
             return;
         }
 
-        staticgecici.setLoggedInManager(managerLoggingIn);
+        SessionManager.setLoggedInManager(managerLoggingIn);
 
         redirect(event);
     }
@@ -100,22 +102,22 @@ public class Login implements Initializable {
     public void databaseConnection(ActionEvent event) {
         //kutucuklar kontrol edilir boş işe varsayılan değerler getirilir, dolu ise yazılan değerler getirilir
         if (databaseURLBox.getText().isEmpty()) {
-            staticgecici.setUrl(staticgecici.getUrlDefault());
-            staticgecici.setDatabasePassword(staticgecici.getDatabasePasswordDefault());
+            DatabaseConfig.setUrl(DatabaseConfig.getUrlDefault());
+            DatabaseConfig.setDatabasePassword(DatabaseConfig.getDatabasePasswordDefault());
         } else {
-            staticgecici.setUrl("jdbc:" + databaseURLBox.getText());
+            DatabaseConfig.setUrl("jdbc:" + databaseURLBox.getText());
         }
 
         if (databaseUsernameBox.getText().isEmpty()) {
-            staticgecici.setUser(staticgecici.getUserDefault());
+            DatabaseConfig.setUser(DatabaseConfig.getUserDefault());
         } else {
-            staticgecici.setUser(databaseUsernameBox.getText());
+            DatabaseConfig.setUser(databaseUsernameBox.getText());
         }
 
         if (databasePasswordBox.getText().isEmpty()) {
-            staticgecici.setDatabasePassword(staticgecici.getDatabasePasswordDefault());
+            DatabaseConfig.setDatabasePassword(DatabaseConfig.getDatabasePasswordDefault());
         } else {
-            staticgecici.setDatabasePassword(databasePasswordBox.getText());
+            DatabaseConfig.setDatabasePassword(databasePasswordBox.getText());
         }
 
         //veritabanı bağlantısı kontrol edilir
@@ -126,11 +128,11 @@ public class Login implements Initializable {
     //program başlatıldığında veritabanı bağlantısı başarılı şekilde kurulmuş mu diye kontrol edip kullanıcıya geri bildirim verir
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        if (staticgecici.testDatabaseConnection()) {
+        if (DatabaseConfig.testDatabaseConnection()) {
             databaseStatusLabel.setText("Veritabanı Bağlantısı: Başarılı");
             databaseStatusLabel.setTextFill(Color.GREEN);
             loginButton.setDisable(false);
-            if (staticgecici.isDatabaseCreated()) {
+            if (DatabaseConfig.isDatabaseCreated()) {
                 firstSetup();
             }
         } else {
@@ -158,7 +160,7 @@ public class Login implements Initializable {
     }
 
     public void loadExampleData() {
-        statusLabel.setText(staticgecici.importExampleData());
+        statusLabel.setText(DatabaseConfig.importExampleData());
         statusLabel.setTextFill(Color.BLACK);
         loadExampleButton.setDisable(true);
     }

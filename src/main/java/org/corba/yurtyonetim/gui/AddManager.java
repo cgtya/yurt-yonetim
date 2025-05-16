@@ -2,17 +2,15 @@ package org.corba.yurtyonetim.gui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import javafx.scene.paint.Color;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.corba.yurtyonetim.database.ManagerDAO;
+import org.corba.yurtyonetim.database.Validation;
 import org.corba.yurtyonetim.users.Manager;
-import org.corba.yurtyonetim.users.Student;
-import org.corba.yurtyonetim.users.staticgecici;
 
 import java.sql.SQLException;
 
@@ -78,7 +76,7 @@ public class AddManager extends BaseMenu {
 
             //veritabanı erişiminde sorun yaşanması durumu için kontrol
             try {
-                alreadyExists = staticgecici.tcKontrol(tcInput);
+                alreadyExists = Validation.tcKontrol(tcInput);
             } catch (SQLException e) {
                 statusLabel.setText("Veritabanı erişiminde sorun yaşandı: " + e.getMessage());
                 statusLabel.setTextFill(Color.RED);
@@ -105,7 +103,7 @@ public class AddManager extends BaseMenu {
 
             //veritabanı erişiminde sorun yaşanması durumu için kontrol
             try {
-                alreadyExists = staticgecici.epostaKontrol(mailInput);
+                alreadyExists = Validation.epostaKontrol(mailInput);
             } catch (SQLException e) {
                 statusLabel.setText("Veritabanı erişiminde sorun yaşandı: " + e.getMessage());
                 statusLabel.setTextFill(Color.RED);
@@ -132,7 +130,7 @@ public class AddManager extends BaseMenu {
 
             //veritabanı erişiminde sorun yaşanması durumu için kontrol
             try {
-                alreadyExists = staticgecici.telNoKontrol(phoneInput);
+                alreadyExists = Validation.telNoKontrol(phoneInput);
             } catch (SQLException e) {
                 statusLabel.setText("Veritabanı erişiminde sorun yaşandı: " + e.getMessage());
                 statusLabel.setTextFill(Color.RED);
@@ -158,7 +156,7 @@ public class AddManager extends BaseMenu {
         manager = new Manager(nameInput,surnameInput,tcInput,phoneInput,mailInput,passSha256);
 
         //manager nesnesi veritabanına yüklenir
-        String message = staticgecici.addManagerStatic(manager);
+        String message = ManagerDAO.addManagerStatic(manager);
 
         statusLabel.setText(message);
         statusLabel.setTextFill(darkModeDefTextColor());

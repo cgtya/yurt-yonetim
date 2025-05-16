@@ -10,7 +10,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import org.corba.yurtyonetim.users.staticgecici;
+import org.corba.yurtyonetim.session.SessionManager;
 
 import java.io.IOException;
 
@@ -101,7 +101,7 @@ public class BaseMenu {
         //onay kutucuğu
         if (alert.showAndWait().get() == ButtonType.OK) {
             //giriş yapan hesap değişkenini boşaltır
-            staticgecici.setLoggedInManager(null);
+            SessionManager.setLoggedInManager(null);
 
             //anasayfa ekranına döndürür
             Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
@@ -119,7 +119,7 @@ public class BaseMenu {
         alert.showAndWait();
 
         //giriş yapan hesap değişkenini boşaltır
-        staticgecici.setLoggedInManager(null);
+        SessionManager.setLoggedInManager(null);
 
         //anasayfa ekranına döndürür
         Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));

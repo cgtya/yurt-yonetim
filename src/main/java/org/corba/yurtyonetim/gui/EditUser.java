@@ -2,14 +2,14 @@ package org.corba.yurtyonetim.gui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.corba.yurtyonetim.database.ManagerDAO;
+import org.corba.yurtyonetim.database.Validation;
+import org.corba.yurtyonetim.session.SessionManager;
 import org.corba.yurtyonetim.users.Manager;
-import org.corba.yurtyonetim.users.staticgecici;
 
 import java.io.IOException;
 import java.net.URL;
@@ -37,7 +37,7 @@ public class EditUser extends BaseMenu implements Initializable {
 
 
 
-    private Manager loggedInManager = staticgecici.getLoggedInManager();
+    private Manager loggedInManager = SessionManager.getLoggedInManager();
 
     public void saveButtonClick(ActionEvent event) {
         statusLabel.setText("");
@@ -78,7 +78,7 @@ public class EditUser extends BaseMenu implements Initializable {
 
             //veritabanı erişiminde sorun yaşanması durumu için kontrol
             try {
-                alreadyExists = staticgecici.epostaKontrol(mailInput);
+                alreadyExists = Validation.epostaKontrol(mailInput);
             } catch (SQLException e) {
                 statusLabel.setText("Veritabanı erişiminde sorun yaşandı: " + e.getMessage());
                 statusLabel.setTextFill(Color.RED);
@@ -107,7 +107,7 @@ public class EditUser extends BaseMenu implements Initializable {
 
             //veritabanı erişiminde sorun yaşanması durumu için kontrol
             try {
-                alreadyExists = staticgecici.telNoKontrol(phoneInput);
+                alreadyExists = Validation.telNoKontrol(phoneInput);
             } catch (SQLException e) {
                 statusLabel.setText("Veritabanı erişiminde sorun yaşandı: " + e.getMessage());
                 statusLabel.setTextFill(Color.RED);
@@ -137,7 +137,7 @@ public class EditUser extends BaseMenu implements Initializable {
         loggedInManager.setEmail(mailInput);
         loggedInManager.setTelNo(phoneInput);
 
-        String message = staticgecici.updateManagerInDatabase(loggedInManager);
+        String message = ManagerDAO.updateManagerInDatabase(loggedInManager);
 
         statusLabel.setText(message);
         statusLabel.setTextFill(darkModeDefTextColor());
@@ -153,7 +153,7 @@ public class EditUser extends BaseMenu implements Initializable {
         //onay kutucuğu
         if (alert.showAndWait().get() == ButtonType.OK) {
             //silme metodu çağırılır mesaj bildirim olarak gösteriilir
-            logoutNoConf(event, staticgecici.deleteManager(loggedInManager.getTcNo()));
+            logoutNoConf(event, ManagerDAO.deleteManager(loggedInManager.getTcNo()));
         }
     }
 

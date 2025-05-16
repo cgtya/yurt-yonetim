@@ -7,7 +7,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
-import org.corba.yurtyonetim.users.staticgecici;
+import org.corba.yurtyonetim.database.DormDAO;
+import org.corba.yurtyonetim.database.StudentDAO;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -39,10 +40,10 @@ public class Mainmenu extends BaseMenu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        int golbasi = staticgecici.getStudentCount("Golbasi");
-        int huseyin = staticgecici.getStudentCount("HuseyinGazi");
-        int osmantan = staticgecici.getStudentCount("OsmanTan");
-        int mogan = staticgecici.getStudentCount("Mogan");
+        int golbasi = DormDAO.getStudentCount("Golbasi");
+        int huseyin = DormDAO.getStudentCount("HuseyinGazi");
+        int osmantan = DormDAO.getStudentCount("OsmanTan");
+        int mogan = DormDAO.getStudentCount("Mogan");
 
         //eğer hata ile karşılaşılmaz ise progressbarlar güncellenir
         if (!(golbasi==-1)) {
@@ -95,10 +96,11 @@ public class Mainmenu extends BaseMenu implements Initializable {
         if(!tcNo.matches(tcNoRegex)) {
             statusLabel.setText("Geçersiz Kimlik Numarası.");
             statusLabel.setTextFill(Color.RED);
+            return;
         }
 
         //öğrencinin izin durumunu değiştiren fonksiyon
-        statusLabel.setText(staticgecici.toggleLeaveStatus(tcNo));
+        statusLabel.setText(StudentDAO.toggleLeaveStatus(tcNo));
         statusLabel.setTextFill(darkModeDefTextColor());
     }
 

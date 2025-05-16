@@ -7,9 +7,9 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
+import org.corba.yurtyonetim.database.DormDAO;
+import org.corba.yurtyonetim.database.StudentDAO;
 import org.corba.yurtyonetim.users.Student;
-import org.corba.yurtyonetim.users.staticgecici;
-
 
 public class TransferManagement extends BaseMenu {
     @FXML
@@ -46,7 +46,7 @@ public class TransferManagement extends BaseMenu {
         }
 
         //öğrenci veritabanından çekilir
-        st1 = staticgecici.getStudentByTc(tcNo);
+        st1 = StudentDAO.getStudentByTc(tcNo);
 
         //geçerli öğrenci kontrolü
         if (st1 == null) {
@@ -66,7 +66,7 @@ public class TransferManagement extends BaseMenu {
         updateButton.setDisable(true);
         applyButton.setDisable(false);
 
-        availableDorm.getItems().addAll(staticgecici.getBosYurtlarForStudent(tcNo));
+        availableDorm.getItems().addAll(DormDAO.getBosYurtlarForStudent(tcNo));
         availableDorm.setDisable(false);
 
         statusLabel.setText("Öğrencinin nakil olacağı yurdu seçip onaylayabilirsiniz. \nSeçilen öğrenci: " + st1.getName() + " " + st1.getSurname());
@@ -81,7 +81,7 @@ public class TransferManagement extends BaseMenu {
         String dormChoice = availableDorm.getValue();
 
         //nakil metodu çalıştırlır
-        String message = staticgecici.nakilYapStatic(tcNo,dormChoice);
+        String message = DormDAO.nakilYapStatic(tcNo,dormChoice);
 
         //sayfa eski haline döndürülür
         resetPage();
