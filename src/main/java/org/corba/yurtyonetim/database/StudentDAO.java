@@ -8,9 +8,16 @@ import java.util.Set;
 
 public class StudentDAO {
 
-    private static String url = DatabaseConfig.getUrl();
-    private static String user = DatabaseConfig.getUser();
-    private static String databasePassword = DatabaseConfig.getDatabasePassword();
+    private static String url;
+    private static String user;
+    private static String databasePassword;
+
+    //database giriş parametrelerinin düzgün bir şekilde güncellenmesini sağlar
+    public static void initCredUpdate() {
+        url = DatabaseConfig.getUrl();
+        user = DatabaseConfig.getUser();
+        databasePassword = DatabaseConfig.getDatabasePassword();
+    }
 
     public static String addStudentStatic(Student student) {
         String sqlInsert = "INSERT INTO ogrenci (name, surname, tcNo, telNo, eposta, currentDorm, disiplinNo, isOnLeave) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";

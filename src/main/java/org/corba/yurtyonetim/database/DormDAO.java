@@ -6,9 +6,16 @@ import java.util.Set;
 
 public class DormDAO {
 
-    private static String url = DatabaseConfig.getUrl();
-    private static String user = DatabaseConfig.getUser();
-    private static String databasePassword = DatabaseConfig.getDatabasePassword();
+    private static String url;
+    private static String user;
+    private static String databasePassword;
+
+    //database giriş parametrelerinin düzgün bir şekilde güncellenmesini sağlar
+    public static void initCredUpdate() {
+        url = DatabaseConfig.getUrl();
+        user = DatabaseConfig.getUser();
+        databasePassword = DatabaseConfig.getDatabasePassword();
+    }
 
     public static String makeBecayisStatic(String tc1, String tc2) {
 

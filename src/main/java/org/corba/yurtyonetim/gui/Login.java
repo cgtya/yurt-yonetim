@@ -14,8 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.corba.yurtyonetim.database.DatabaseConfig;
-import org.corba.yurtyonetim.database.ManagerDAO;
+import org.corba.yurtyonetim.database.*;
 import org.corba.yurtyonetim.session.SessionManager;
 import org.corba.yurtyonetim.users.Manager;
 
@@ -119,6 +118,12 @@ public class Login implements Initializable {
         } else {
             DatabaseConfig.setDatabasePassword(databasePasswordBox.getText());
         }
+
+        //diğer veritabanı dosyaları güncellenir
+        DormDAO.initCredUpdate();
+        ManagerDAO.initCredUpdate();
+        StudentDAO.initCredUpdate();
+        Validation.initCredUpdate();
 
         //veritabanı bağlantısı kontrol edilir
         initialize(null,null);

@@ -6,9 +6,16 @@ import java.sql.*;
 
 public class ManagerDAO {
 
-    private static String url = DatabaseConfig.getUrl();
-    private static String user = DatabaseConfig.getUser();
-    private static String databasePassword = DatabaseConfig.getDatabasePassword();
+    private static String url;
+    private static String user;
+    private static String databasePassword;
+
+    //database giriş parametrelerinin düzgün bir şekilde güncellenmesini sağlar
+    public static void initCredUpdate() {
+        url = DatabaseConfig.getUrl();
+        user = DatabaseConfig.getUser();
+        databasePassword = DatabaseConfig.getDatabasePassword();
+    }
 
     public static String addManagerStatic(Manager manager) {
         String sqlInsert = "INSERT INTO yonetici (name, surname, tcNo, telNo, eposta, password) VALUES (?, ?, ?, ?, ?, ?)";
