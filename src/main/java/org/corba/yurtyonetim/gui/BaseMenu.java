@@ -62,7 +62,7 @@ public class BaseMenu {
         Alert about = new Alert(Alert.AlertType.INFORMATION);
         about.setTitle("Hakkında");
         about.setHeaderText("Yurt Yönetim Sistemi");
-        about.setContentText("a");
+        about.setContentText("merhaba hocam");
         about.showAndWait();
 
     }
